@@ -1,5 +1,13 @@
 package guru.springframework.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "nlogs", schema = "dapper")
+@JsonIgnoreProperties
 public class Log
 {
     private String spec_info;
@@ -10,6 +18,8 @@ public class Log
 
     private String logger;
 
+
+    @Column(name="`FROM`")
     private String FROM;
 
     private String nf_type;
@@ -21,8 +31,9 @@ public class Log
     private String dest_ip_port;
 
     private String source_ip_port;
-
-    private String id;
+    @Id
+    @GeneratedValue
+    private int id;
 
     private String state;
 
@@ -39,10 +50,10 @@ public class Log
     private String status_description;
 
     private String sub_status;
-
+    @Column(name="`level`")
     private String level;
 
-    private String session_id;
+    private int session_id;
 
     private String message;
 
@@ -58,14 +69,16 @@ public class Log
 
     private String index_par3;
 
+    @Column(name="`TO`")
     private String TO;
+
 
     private String module_name;
 
     private String req_sent_time;
 
     private String index_par1;
-
+    @Column(name="`status`")
     private String status;
 
     public String getSpec_info ()
@@ -168,12 +181,12 @@ public class Log
         this.source_ip_port = source_ip_port;
     }
 
-    public String getId ()
+    public int getId ()
     {
         return id;
     }
 
-    public void setId (String id)
+    public void setId (int id)
     {
         this.id = id;
     }
@@ -268,12 +281,12 @@ public class Log
         this.level = level;
     }
 
-    public String getSession_id ()
+    public int getSession_id ()
     {
         return session_id;
     }
 
-    public void setSession_id (String session_id)
+    public void setSession_id (int session_id)
     {
         this.session_id = session_id;
     }

@@ -17,7 +17,7 @@ import javax.validation.Valid;
 /**
  * Created by jt on 1/10/17.
  */
-@Controller
+@Controller("/product")
 public class ProductController {
     private ProductService productService;
 
@@ -33,7 +33,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @RequestMapping("/")
+    @RequestMapping("/product")
     public String redirToList(){
         return "redirect:/product/list";
     }
