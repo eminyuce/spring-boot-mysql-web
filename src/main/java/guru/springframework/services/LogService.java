@@ -10,5 +10,6 @@ public interface LogService {
     Log getById(int id);
     void delete(int id);
     void deleteAll();
+    List<Log> listAllByMessageContains(String search);
 
 }

@@ -28,6 +28,13 @@ public class LogServiceImpl implements LogService {
         logRepository.findAll().forEach(logs::add); //fun with Java 8
         return logs;
     }
+    
+    @Override
+    public List<Log> listAllByMessageContains(String search) {
+    	List<Log> logs = new ArrayList<>();
+        logRepository.findByMessageContains(search).forEach(logs::add); //fun with Java 8
+        return logs;
+    }
 
     @Override
     public Log getById(int id) {
