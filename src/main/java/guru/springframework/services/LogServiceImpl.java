@@ -2,7 +2,14 @@ package guru.springframework.services;
 
 import guru.springframework.domain.Log;
 import guru.springframework.domain.Product;
+import guru.springframework.entity.LogSearch;
+import guru.springframework.entity.N5gLogLevel;
+import guru.springframework.entity.NfType;
 import guru.springframework.repositories.LogRepository;
+import guru.springframework.utils.N5gLogLevelUtil;
+import guru.springframework.utils.NfTypeUtil;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,4 +57,22 @@ public class LogServiceImpl implements LogService {
     public void deleteAll() {
         logRepository.deleteAll();
     }
+
+
+	@Override
+	public List<Log> listAllByLogSearch(LogSearch logSearch, String[] selectedNfNames, String[] loglevelNames) {
+		List<Log> logsResult = new ArrayList<Log>();
+		if (StringUtils.isNotEmpty(logSearch.getSearch())) {
+			logsResult = listAllByMessageContains(logSearch.getSearch());
+		} else {
+			logsResult = listAll();
+		}
+		List<NfType> nfTypes = NfTypeUtil.getNfTypes(selectedNfNames); 
+		logsResult = NfTypeUtil.extractLogByNfTypes(selectedNfNames, logsResult);
+		List<N5gLogLevel> n5gLogLevels = N5gLogLevelUtil.getLogLevels(loglevelNames);
+		logsResult = N5gLogLevelUtil.extractByLogLevel(loglevelNames, logsResult);
+		logSearch.setLogLevels(n5gLogLevels);
+		logSearch.setNfTypes(nfTypes);
+		return logsResult;
+	}
 }
