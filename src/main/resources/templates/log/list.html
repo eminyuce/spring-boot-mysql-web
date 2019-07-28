@@ -31,31 +31,38 @@
 		<p th:text="${logs.size()}"></p>
 		<form th:object="${LogSearch}" th:action="@{/log/list}" method="get">
 
-				<div class="row">
-					<div class="col-sm-2">
-						<select
-							class="form-control" id="sel1">
-							<option value="" disabled selected>Log Level</option>
-							<option>1</option>
-							<option>2</option>
-							<option>3</option>
-							<option>4</option>
-						</select>
-					</div>
-					<div class="col-sm-10">
-						<div class="input-group add-on">
-							<input class="form-control" placeholder="Search"
-								th:value="${LogSearch.search}" name="search" id="search"
-								type="text">
-							<div class="input-group-btn">
-								<button class="btn btn-default" type="submit">
-									<i class="glyphicon glyphicon-search"></i>
-								</button>
-							</div>
-						</div>
+
+			<div class="row">
+				<div class="col-sm-12">
+					<th:block th:each="loglevel : ${LogSearch.LogLevels}">
+						<input type="checkbox" th:checked="${loglevel.selected}"
+							name="loglevelNames" th:value="${loglevel.name}" />
+						<label th:text="${loglevel.name}"></label>
+					</th:block>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<th:block th:each="nfType : ${LogSearch.NfTypes}">
+						<input type="checkbox" th:checked="${nfType.selected}"
+							name="selectedNfNames" th:value="${nfType.name}" />
+						<label th:text="${nfType.name}"></label>
+					</th:block>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-group add-on">
+					<input class="form-control" placeholder="Search"
+						th:value="${LogSearch.search}" name="search" id="search"
+						type="text">
+					<div class="input-group-btn">
+						<button class="btn btn-default" type="submit">
+							<i class="glyphicon glyphicon-search"></i>
+						</button>
 					</div>
 				</div>
-		
+			</div>
+
 
 
 			<div th:fragment="table (logs)">
@@ -63,24 +70,32 @@
 					<table id="logs" class="table table-striped table-hover">
 						<thead>
 							<tr>
-								<th scope="col" style="width: 15%">Date</th>
-								<th scope="col" style="width: 15%">Env</th>
-								<th scope="col" style="width: 15%">Env</th>
-								<th scope="col" style="width: 15%">Env</th>
-								<th scope="col" style="width: 40%">Message</th>
+								<th scope="col" style="width: 3%">Id</th>
+								<th scope="col" style="width: 3%">Date</th>
+								<th scope="col" style="width: 3%">NfType</th>
+								<th scope="col" style="width: 3%">FROM-TO</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="log : ${logs}" th:classappend="${log.getCssClass()}">
-								<td th:text="${log.log_time}"></td>
-								<td><span th:text="${'Przemek '+log.id+' on '+log.nf_type}"></span></td>
-								<td class="textCol"><span
-									th:text="${log.FROM} + ' | ' + ${log.TO} "></span></td>
-								<td class="textCol"><span
-									th:unless="${#strings.isEmpty(log.exception)}" /></span> <code
-										th:text="${log.exception}"></code></td>
-								<td class="textCol"><span th:text="${log.message}"></span></td>
-							</tr>
+							<th:block th:each="log : ${logs}">
+								<tr th:classappend="${log.getCssClass()}">
+									<td th:text="${log.id}"></td>
+									<td th:text="${log.log_time}"></td>
+									<td><span th:text="${log.nf_type}"></span></td>
+									<td class="textCol"><span
+										th:text="' FROM ' +${log.FROM} + ' -  TO ' + ${log.TO} "></span></td>
+
+								</tr>
+								<tr th:classappend="${log.getCssClass()}">
+									<td colspan="4" class="textCol"><span
+										th:text="${log.message}"></span></td>
+								</tr>
+								<tr th:classappend="${log.getCssClass()}">
+									<td colspan="4" class="textCol"><span
+										th:unless="${#strings.isEmpty(log.exception)}" /></span> <code
+											th:text="${log.exception}"></code></td>
+								</tr>
+							</th:block>
 						</tbody>
 					</table>
 				</div>
