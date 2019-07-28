@@ -1,42 +1,106 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Core Online Tutorial - List Products</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Spring Core Online Tutorial - List Products</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-    <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
-          th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}"
-          rel="stylesheet" media="screen"/>
+<link
+	href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+	th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}"
+	rel="stylesheet" media="screen" />
 
-    <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
-            th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
+<script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
+	th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
 
-    <link href="../../static/css/spring-core.css"
-          th:href="@{css/spring-core.css}" rel="stylesheet" media="screen"/>
+<link href="../../static/css/spring-core.css"
+	th:href="@{css/spring-core.css}" rel="stylesheet" media="screen" />
 </head>
 <body>
-<div class="container">
-  <h2>Search for students</h2>
-    <form th:object="${LogSearch}" th:action="@{/log/list}" method="get">
-        <input type="text" name="search" id="search" th:value="${LogSearch.search}"/>
-        <input type="submit" value="Search"/>
-        <div th:if="${not #lists.isEmpty(logs)}">
-        <h2>Product List</h2>
-        <table class="table table-striped">
-            <tr>
-                <th>Id</th>
+	<div class="container">
+		<h2>Search for students</h2>
+		<form th:object="${LogSearch}" th:action="@{/log/list}" method="get">
+			<input type="text" name="search" id="search"
+				th:value="${LogSearch.search}" /> <input type="submit"
+				value="Search" />
+			<div th:if="${not #lists.isEmpty(logs)}">
+				<h2>Product List</h2>
+				<table class="table table-striped">
+					<tr>
+						<th>id</th>
+						<th>from</th>
+						<th>to</th>
+						<th>corr_id</th>
+						<th>data_detail</th>
+						<th>dest_ip_port</th>
+						<th>exception</th>
+						<th>gpsi</th>
+						<th>index_par1</th>
+						<th>index_par2</th>
+						<th>index_par3</th>
+						<th>int_instance_id</th>
+						<th>level</th>
+						<th>log_time</th>
+						<th>logger</th>
+						<th>marker</th>
+						<th>message</th>
+						<th>module_name</th>
+						<th>nf_instance_id</th>
+						<th>nf_name</th>
+						<th>nf_type</th>
+						<th>pei</th>
+						<th>req_sent_time</th>
+						<th>resp_rec_time</th>
+						<th>session_id</th>
+						<th>snssai</th>
+						<th>source_ip_port</th>
+						<th>spec_info</th>
+						<th>state</th>
+						<th>status</th>
+						<th>status_description</th>
+						<th>sub_status</th>
+						<th>supi</th>
+					</tr>
+					<tr th:each="log : ${logs}">
+						<td th:text="${log.id}"></td>
+						<td th:text="${log.FROM}"></td>
+						<td th:text="${log.TO}"></td>
+						<td th:text="${log.corr_id}"></td>
+						<td th:text="${log.data_detail}"></td>
+						<td th:text="${log.dest_ip_port}"></td>
+						<td th:text="${log.exception}"></td>
+						<td th:text="${log.gpsi}"></td>
+						<td th:text="${log.index_par1}"></td>
+						<td th:text="${log.index_par2}"></td>
+						<td th:text="${log.index_par3}"></td>
+						<td th:text="${log.int_instance_id}"></td>
+						<td th:text="${log.level}"></td>
+						<td th:text="${log.log_time}"></td>
+						<td th:text="${log.logger}"></td>
+						<td th:text="${log.marker}"></td>
+						<td th:text="${log.message}"></td>
+						<td th:text="${log.module_name}"></td>
+						<td th:text="${log.nf_instance_id}"></td>
+						<td th:text="${log.nf_name}"></td>
+						<td th:text="${log.nf_type}"></td>
+						<td th:text="${log.pei}"></td>
+						<td th:text="${log.req_sent_time}"></td>
+						<td th:text="${log.resp_rec_time}"></td>
+						<td th:text="${log.session_id}"></td>
+						<td th:text="${log.snssai}"></td>
+						<td th:text="${log.source_ip_port}"></td>
+						<td th:text="${log.spec_info}"></td>
+						<td th:text="${log.state}"></td>
+						<td th:text="${log.status}"></td>
+						<td th:text="${log.status_description}"></td>
+						<td th:text="${log.sub_status}"></td>
+						<td th:text="${log.supi}"></td>
+					</tr>
+				</table>
+			</div>
+		</form>
 
-            </tr>
-            <tr th:each="log : ${logs}">
-                <td th:text="${log.id}"></td>
 
-            </tr>
-        </table>
-    </div>
-    </form>
-   
-
-</div>
+	</div>
 
 </body>
 </html>
