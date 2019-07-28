@@ -87,8 +87,10 @@
 
 								</tr>
 								<tr th:classappend="${log.getCssClass()}">
-									<td colspan="4" class="textCol"><span
-										th:text="${log.message}"></span></td>
+									<td colspan="4" class="textCol">
+										<textarea disabled="" style="width: 100%; height: 250px;"><span
+										th:text="${log.message}"></span></textarea>
+										</td>
 								</tr>
 								<tr th:classappend="${log.getCssClass()}">
 									<td colspan="4" class="textCol"><span
