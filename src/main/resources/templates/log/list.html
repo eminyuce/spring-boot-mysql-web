@@ -71,7 +71,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="log : ${logs}" th:classappend="${log.level}">
+							<tr th:each="log : ${logs}" th:classappend="${log.getCssClass()}">
 								<td th:text="${log.log_time}"></td>
 								<td><span th:text="${'Przemek '+log.id+' on '+log.nf_type}"></span></td>
 								<td class="textCol"><span
