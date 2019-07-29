@@ -21,14 +21,26 @@
 <script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 <script src="webjars/jquery/1.9.1/jquery.min.js"></script>
-
+<style type="text/css">
+.container-full {
+	margin: 0 auto;
+	width: 98%;
+}
+</style>
 </head>
 <body>
-	<div class="container">
-		<h2>N5G Core Network LOGS</h2>
-		<p th:unless="${logs} and ${logs.size()}">No log entries yet!</p>
-		The Number of Result:
-		<p th:text="${logs.size()}"></p>
+	<div class="container-fluid">
+		<div class="container">
+			<div class="panel panel-info">
+				<div class="panel-body">
+					<b th:text="${logs.size()}"></b> Record Found &nbsp;&nbsp;
+					<b th:text="${logs.size()}"></b> Error Log Found&nbsp;&nbsp;
+					<b th:text="${logs.size()}"></b> Java Exception Found&nbsp;&nbsp;
+				</div>
+			</div>
+		</div>
+
+
 		<form th:object="${LogSearch}" th:action="@{/log/list}" method="get">
 
 
@@ -56,9 +68,9 @@
 						th:value="${LogSearch.search}" name="search" id="search"
 						type="text">
 					<div class="input-group-btn">
-						<button class="btn btn-default" type="submit">
-							<i class="glyphicon glyphicon-search"></i>
-						</button>
+					 <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                            <button type="button" class="btn btn-danger wrn-btn">Search</button>
+                        </div>
 					</div>
 				</div>
 			</div>
@@ -70,30 +82,38 @@
 					<table id="logs" class="table table-striped table-hover">
 						<thead>
 							<tr>
-								<th scope="col" style="width: 3%">Id</th>
-								<th scope="col" style="width: 3%">Date</th>
-								<th scope="col" style="width: 3%">NfType</th>
+								<th scope="col" style="width: 3%">Id-LOG_TIME</th>
+								<th scope="col" style="width: 3%">SPEC INFO</th>
+								<th scope="col" style="width: 3%">SUPI-PEI</th>
+								<th scope="col" style="width: 3%">NF INFO</th>
 								<th scope="col" style="width: 3%">FROM-TO</th>
+								<th scope="col" style="width: 3%">IP</th>
 							</tr>
 						</thead>
 						<tbody>
 							<th:block th:each="log : ${logs}">
 								<tr th:classappend="${log.getCssClass()}">
-									<td th:text="${log.id}"></td>
-									<td th:text="${log.log_time}"></td>
-									<td><span th:text="${log.nf_type}"></span></td>
+									<td><span th:text="'ID:' +${log.id}"></span><br> <span
+										th:text="${log.log_time}"></span></td>
+									<td th:text="${log.spec_info}"></td>
+									<td><span th:text="'SUPI:' +${log.supi}"></span><br>
+										<span th:text="'PEI:' +${log.pei}"></span><br> <span
+										th:text="'SNSSAI:' +${log.snssai}"></span><br></td>
+									<td><span
+										th:text="'NFYPE:' +${log.nf_type}+ ' NFNAME ' +${log.nf_name}"></span></td>
 									<td class="textCol"><span
 										th:text="' FROM ' +${log.FROM} + ' -  TO ' + ${log.TO} "></span></td>
-
+									<td><span th:text="'DEST_IP_PORT:' +${log.dest_ip_port}"></span><br>
+										<span th:text="'SOURCE_IP_PORT:' +${log.source_ip_port}"></span><br>
+									</td>
 								</tr>
 								<tr th:classappend="${log.getCssClass()}">
-									<td colspan="4" class="textCol">
-										<textarea disabled="" style="width: 100%; height: 250px;"><span
-										th:text="${log.message}"></span></textarea>
-										</td>
+									<td colspan="6" class="textCol"><textarea disabled=""
+											style="width: 100%; height: 250px;"><span
+												th:text="${log.message}"></span></textarea></td>
 								</tr>
 								<tr th:classappend="${log.getCssClass()}">
-									<td colspan="4" class="textCol"><span
+									<td colspan="6" class="textCol"><span
 										th:unless="${#strings.isEmpty(log.exception)}" /></span> <code
 											th:text="${log.exception}"></code></td>
 								</tr>

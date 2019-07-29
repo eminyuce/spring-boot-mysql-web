@@ -11,10 +11,12 @@ import guru.springframework.utils.NfTypeUtil;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LogServiceImpl implements LogService {
@@ -22,6 +24,11 @@ public class LogServiceImpl implements LogService {
 
     private LogRepository logRepository;
 
+    @Value("app.exclude.message")
+    private String messageExcluded;
+    
+    @Value("app.exclude.data_detail")
+    private String dataDetailExcluded;
 
     @Autowired
     public LogServiceImpl(LogRepository logRepository) {
@@ -71,8 +78,26 @@ public class LogServiceImpl implements LogService {
 		logsResult = NfTypeUtil.extractLogByNfTypes(selectedNfNames, logsResult);
 		List<N5gLogLevel> n5gLogLevels = N5gLogLevelUtil.getLogLevels(loglevelNames);
 		logsResult = N5gLogLevelUtil.extractByLogLevel(loglevelNames, logsResult);
+	
+		String [] elements = dataDetailExcluded.split(";");
+		for (String element : elements) {
+		    String trimmedElement = element.trim();
+		    logsResult =   logsResult.stream()
+	         .filter(t -> !t.getData_detail().contains(trimmedElement))
+	         .collect(Collectors.toList());
+		}
+		
+		elements = messageExcluded.split(";");
+		for (String element : elements) {
+		    String trimmedElement = element.trim();
+		    logsResult =   logsResult.stream()
+	         .filter(t -> !t.getMessage().contains(trimmedElement))
+	         .collect(Collectors.toList());
+		}
+		
 		logSearch.setLogLevels(n5gLogLevels);
 		logSearch.setNfTypes(nfTypes);
+		
 		return logsResult;
 	}
 }
