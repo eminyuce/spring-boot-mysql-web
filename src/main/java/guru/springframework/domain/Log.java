@@ -1,14 +1,15 @@
 package guru.springframework.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.util.logging.Level;
-
-import javax.persistence.*;
-
 @Entity
-@Table(name = "nlogs", schema = "dapper")
+@Table(name = "app_logs")
 @JsonIgnoreProperties
 public class Log {
 	private String spec_info;
@@ -19,7 +20,7 @@ public class Log {
 
 	private String logger;
 
-	@Column(name = "`FROM`")
+	@Column(name = "[FROM]")
 	private String FROM;
 
 	private String nf_type;
@@ -50,7 +51,7 @@ public class Log {
 	private String status_description;
 
 	private String sub_status;
-	@Column(name = "`level`")
+	@Column(name = "[level]")
 	private String level;
 
 	private int session_id;
@@ -69,7 +70,7 @@ public class Log {
 
 	private String index_par3;
 
-	@Column(name = "`TO`")
+	@Column(name = "[TO]")
 	private String TO;
 
 	private String module_name;
@@ -77,7 +78,7 @@ public class Log {
 	private String req_sent_time;
 
 	private String index_par1;
-	@Column(name = "`status`")
+	@Column(name = "[status]")
 	private String status;
 
 	public String getSpec_info() {
@@ -112,12 +113,12 @@ public class Log {
 		this.logger = logger;
 	}
 
-	public String getFROM() {
+	public String getFrom() {
 		return FROM;
 	}
 
-	public void setFROM(String FROM) {
-		this.FROM = FROM;
+	public void setFrom(String from) {
+		this.FROM = from;
 	}
 
 	public String getNf_type() {
@@ -345,19 +346,19 @@ public class Log {
 	}
 
 	public String getCssClass() {
-		String result="";
+		String result = "";
 		switch (level) {
 		case "INFO":
-			result="info";
+			result = "info";
 			break;
 		case "":
-			result="success";
+			result = "success";
 			break;
 		case "DEBUG":
-			result="warning";
+			result = "warning";
 			break;
 		case "TRACE":
-			result="error";
+			result = "error";
 			break;
 		default:
 			break;
@@ -366,17 +367,4 @@ public class Log {
 		return result;
 	}
 
-	@Override
-	public String toString() {
-		return "ClassPojo [spec_info = " + spec_info + ", exception = " + exception + ", resp_rec_time = "
-				+ resp_rec_time + ", logger = " + logger + ", FROM = " + FROM + ", nf_type = " + nf_type + ", gpsi = "
-				+ gpsi + ", pei = " + pei + ", dest_ip_port = " + dest_ip_port + ", source_ip_port = " + source_ip_port
-				+ ", id = " + id + ", state = " + state + ", nf_name = " + nf_name + ", nf_instance_id = "
-				+ nf_instance_id + ", data_detail = " + data_detail + ", corr_id = " + corr_id + ", snssai = " + snssai
-				+ ", status_description = " + status_description + ", sub_status = " + sub_status + ", level = " + level
-				+ ", session_id = " + session_id + ", message = " + message + ", supi = " + supi + ", log_time = "
-				+ log_time + ", marker = " + marker + ", index_par2 = " + index_par2 + ", int_instance_id = "
-				+ int_instance_id + ", index_par3 = " + index_par3 + ", TO = " + TO + ", module_name = " + module_name
-				+ ", req_sent_time = " + req_sent_time + ", index_par1 = " + index_par1 + ", status = " + status + "]";
-	}
 }
