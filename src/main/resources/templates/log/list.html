@@ -9,18 +9,10 @@
 	th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}"
 	rel="stylesheet" media="screen" />
 
-<script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.4/jquery.min.js"
-	th:src="@{/webjars/jquery/2.1.4/jquery.min.js}"></script>
 
-<link href="../../static/css/spring-core.css"
-	th:href="@{css/spring-core.css}" rel="stylesheet" media="screen" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 
-<link href="webjars/bootstrap/3.3.6/css/bootstrap.min.css"
-	rel="stylesheet">
-
-<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
 <style type="text/css">
 .container-full {
 	margin: 0 auto;
@@ -33,9 +25,9 @@
 		<div class="container">
 			<div class="panel panel-info">
 				<div class="panel-body">
-					<b th:text="${logs.size()}"></b> Record Found &nbsp;&nbsp;
-					<b th:text="${logs.size()}"></b> Error Log Found&nbsp;&nbsp;
-					<b th:text="${logs.size()}"></b> Java Exception Found&nbsp;&nbsp;
+					<b th:text="${logs.size()}"></b> Record Found &nbsp;&nbsp; <b
+						th:text="${logs.size()}"></b> Error Log Found&nbsp;&nbsp; <b
+						th:text="${logs.size()}"></b> Java Exception Found&nbsp;&nbsp;
 				</div>
 			</div>
 		</div>
@@ -63,15 +55,13 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="input-group add-on">
+				<div class="col-md-8">
 					<input class="form-control" placeholder="Search"
 						th:value="${LogSearch.search}" name="search" id="search"
 						type="text">
-					<div class="input-group-btn">
-					 <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                            <input type="submit" value="Search"  class="btn btn-danger wrn-btn">
-                        </div>
-					</div>
+				</div>
+				<div class="col-md-4">
+					<input type="submit" value="Search" class="btn btn-danger btn-block wrn-btn">
 				</div>
 			</div>
 
@@ -107,12 +97,14 @@
 										<span th:text="'SOURCE_IP_PORT:' +${log.source_ip_port}"></span><br>
 									</td>
 								</tr>
-								<tr th:classappend="${log.getCssClass()}">
+								<tr th:attr="data-log_message=${log.id}"
+									th:classappend="${log.getCssClass()}">
 									<td colspan="6" class="textCol"><textarea disabled=""
 											style="width: 100%; height: 250px;"><span
 												th:text="${log.message}"></span></textarea></td>
 								</tr>
-								<tr th:classappend="${log.getCssClass()}">
+								<tr th:attr="data-log_exception=${log.id}"
+									th:classappend="${log.getCssClass()}">
 									<td colspan="6" class="textCol"><span
 										th:unless="${#strings.isEmpty(log.exception)}" /></span> <code
 											th:text="${log.exception}"></code></td>
