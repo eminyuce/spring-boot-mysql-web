@@ -1,13 +1,23 @@
 package guru.springframework.repositories;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
+import org.apache.commons.lang3.reflect.FieldUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,37 +50,69 @@ public class LogRepositoryTest {
 	}
 
 	@Test
-	public void readJsonFile2() {
+	public void readJsonFile2() throws ParseException, JSONException, IllegalAccessException {
 		String resourceName = "C:\\Users\\YUCE\\Desktop\\VirtualMachineSharedFolder\\log2.json";
-		String content;
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+		BufferedReader reader;
 		try {
-			content = new String(Files.readAllBytes(Paths.get(resourceName)));
-			MyTestDummy car = objectMapper.readValue(content, MyTestDummy.class);
-			for (Log l : car.getLog()) {
-				l.setTO("");
+			reader = new BufferedReader(new FileReader(resourceName));
+			String line = reader.readLine();
+			while (line != null) {
+				System.out.println(line);
+				// read next line
+				line = reader.readLine();
+				Log log = new Log();
+
+				if (line.contains("id")) {
+					Map<String, String> map = new HashMap<String, String>();
+					String test = line;
+					String[] test1 = test.split(",");
+
+					for (String s : test1) {
+						String[] t = s.split(":");
+						if (t.length == 2)
+							map.put(t[0].replace("{\"", "").replace("\"", "").trim(), t[1].replace("\"", "").trim());
+
+					}
+
+					Field[] fields = FieldUtils.getAllFields(log.getClass());
+					for (Field field : fields) {
+						String s = field.getName();
+						if (s.equalsIgnoreCase("id")) {
+							System.out.println(s + "  " + map.get(s));
+							FieldUtils.writeField(log, s, new Random().nextInt(50000), true);
+						} else if (s.equalsIgnoreCase("session_id")) {
+							System.out.println(s + "  " + map.get(s));
+							FieldUtils.writeField(log, s, new Random().nextInt(50000), true);
+						} else {
+							FieldUtils.writeField(log, s, "", true);
+						}
+					}
+					for (String s : map.keySet()) {
+						try {
+							if (s.equalsIgnoreCase("id")) {
+								System.out.println(s + "  " + map.get(s));
+								FieldUtils.writeField(log, s, new Random().nextInt(50000), true);
+							} else if (s.equalsIgnoreCase("session_id")) {
+								System.out.println(s + "  " + map.get(s));
+								FieldUtils.writeField(log, s, new Random().nextInt(50000), true);
+							} else {
+								FieldUtils.writeField(log, s, map.get(s), true);
+							}
+						} catch (Exception e) {
+							// TODO: handle exception
+						}
+
+					}
+
+					logRepository.save(log);
+					System.out.println(log);
+				}
 			}
-			logRepository.saveAll(car.getLog());
+			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-	}
-
-	@Test
-	public void readJsonFile() {
-		String resourceName = "C:\\Users\\YUCE\\Desktop\\VirtualMachineSharedFolder\\log2.json";
-		Gson gsonRead = new Gson();
-		Reader reader = null;
-		try {
-			reader = new FileReader(resourceName);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		Gson gson = new GsonBuilder().registerTypeAdapter(Double.class, new BadDoubleDeserializer()).create();
-		MyTestDummy asiento = gson.fromJson(reader, MyTestDummy.class);
-
 	}
 
 	public static class BadDoubleDeserializer implements JsonDeserializer<Double> {
