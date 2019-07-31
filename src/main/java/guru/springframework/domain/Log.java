@@ -6,6 +6,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -304,12 +306,12 @@ public class Log {
 		this.index_par3 = index_par3;
 	}
 
-	public String getTO() {
+	public String getTo() {
 		return to;
 	}
 
-	public void setTO(String TO) {
-		this.to = TO;
+	public void setTo(String to) {
+		this.to = to;
 	}
 
 	public String getModule_name() {
@@ -344,39 +346,28 @@ public class Log {
 		this.status = status;
 	}
 
-	@Override
-	public String toString() {
-		return "Log [spec_info=" + spec_info + ", exception=" + exception + ", resp_rec_time=" + resp_rec_time
-				+ ", logger=" + logger + ", FROM=" + from + ", nf_type=" + nf_type + ", gpsi=" + gpsi + ", pei=" + pei
-				+ ", dest_ip_port=" + dest_ip_port + ", source_ip_port=" + source_ip_port + ", id=" + id + ", state="
-				+ state + ", nf_name=" + nf_name + ", nf_instance_id=" + nf_instance_id + ", data_detail=" + data_detail
-				+ ", corr_id=" + corr_id + ", snssai=" + snssai + ", status_description=" + status_description
-				+ ", sub_status=" + sub_status + ", level=" + level + ", session_id=" + session_id + ", message="
-				+ message + ", supi=" + supi + ", log_time=" + log_time + ", marker=" + marker + ", index_par2="
-				+ index_par2 + ", int_instance_id=" + int_instance_id + ", index_par3=" + index_par3 + ", TO=" + to
-				+ ", module_name=" + module_name + ", req_sent_time=" + req_sent_time + ", index_par1=" + index_par1
-				+ ", status=" + status + "]";
-	}
-
 	public String getCssClass() {
 		String result = "";
-		switch (level) {
-		case "INFO":
+		if (StringUtils.isAllEmpty(level)) {
 			result = "info";
-			break;
-		case "":
-			result = "success";
-			break;
-		case "DEBUG":
-			result = "warning";
-			break;
-		case "TRACE":
-			result = "error";
-			break;
-		default:
-			break;
+		} else {
+			switch (level) {
+			case "INFO":
+				result = "info";
+				break;
+			case "":
+				result = "success";
+				break;
+			case "DEBUG":
+				result = "warning";
+				break;
+			case "TRACE":
+				result = "error";
+				break;
+			default:
+				break;
+			}
 		}
-
 		return result;
 	}
 

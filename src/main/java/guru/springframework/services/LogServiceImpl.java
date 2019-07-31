@@ -35,7 +35,7 @@ public class LogServiceImpl implements LogService {
 
 	@Override
 	public List<Log> listAllByMessageContains(LogSearch logSearch) {
-		return logRepository.findByMessageContains(logSearch.getSearch());
+		return logRepository.findByMessageContains(logSearch);
 	}
 
 	@Override
