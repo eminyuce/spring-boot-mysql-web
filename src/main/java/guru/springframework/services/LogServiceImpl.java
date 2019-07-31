@@ -1,22 +1,20 @@
 package guru.springframework.services;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import guru.springframework.domain.Log;
-import guru.springframework.domain.Product;
 import guru.springframework.entity.LogSearch;
 import guru.springframework.entity.N5gLogLevel;
 import guru.springframework.entity.NfType;
 import guru.springframework.repositories.LogRepository;
 import guru.springframework.utils.N5gLogLevelUtil;
 import guru.springframework.utils.NfTypeUtil;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class LogServiceImpl implements LogService {
@@ -37,9 +35,7 @@ public class LogServiceImpl implements LogService {
 
 	@Override
 	public List<Log> listAllByMessageContains(String search) {
-		List<Log> logs = new ArrayList<>();
-		logRepository.findByMessageContains(search).forEach(logs::add); // fun with Java 8
-		return logs;
+		return logRepository.findByMessageContains(search);
 	}
 
 	@Override
@@ -71,7 +67,7 @@ public class LogServiceImpl implements LogService {
 		logsResult = N5gLogLevelUtil.extractByLogLevel(loglevelNames, logsResult);
 
 		if (logSearch.getDataDetailExcluded() != null && StringUtils.isNotEmpty(logSearch.getDataDetailExcluded())) {
-			String[] elements = logSearch.getDataDetailExcluded().split(";",-1);
+			String[] elements = logSearch.getDataDetailExcluded().split(";", -1);
 			for (String element : elements) {
 				String trimmedElement = element.trim();
 				logsResult = logsResult.stream().filter(t -> !t.getData_detail().contains(trimmedElement))
@@ -79,7 +75,7 @@ public class LogServiceImpl implements LogService {
 			}
 		}
 		if (logSearch.getMessageExcluded() != null && StringUtils.isNotEmpty(logSearch.getMessageExcluded())) {
-			String[]  elements = logSearch.getMessageExcluded().split(";",-1);
+			String[] elements = logSearch.getMessageExcluded().split(";", -1);
 			for (String element : elements) {
 				String trimmedElement = element.trim();
 				logsResult = logsResult.stream().filter(t -> !t.getMessage().contains(trimmedElement))
