@@ -40,17 +40,17 @@ public class LogServiceImpl implements LogService {
 
 	@Override
 	public Log getById(int id) {
-		return logRepository.findById(id).orElse(null);
+		return null;// logRepository.findById(id).orElse(null);
 	}
 
 	@Override
 	public void delete(int id) {
-		logRepository.deleteById(id);
+		// logRepository.deleteById(id);
 	}
 
 	@Override
 	public void deleteAll() {
-		logRepository.deleteAll();
+		// logRepository.deleteAll();
 	}
 
 	@Override
