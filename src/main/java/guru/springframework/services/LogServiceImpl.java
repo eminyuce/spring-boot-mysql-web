@@ -34,8 +34,8 @@ public class LogServiceImpl implements LogService {
 	}
 
 	@Override
-	public List<Log> listAllByMessageContains(String search) {
-		return logRepository.findByMessageContains(search);
+	public List<Log> listAllByMessageContains(LogSearch logSearch) {
+		return logRepository.findByMessageContains(logSearch.getSearch());
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class LogServiceImpl implements LogService {
 	public List<Log> listAllByLogSearch(LogSearch logSearch, String[] selectedNfNames, String[] loglevelNames) {
 		List<Log> logsResult = new ArrayList<Log>();
 		if (StringUtils.isNotEmpty(logSearch.getSearch())) {
-			logsResult = listAllByMessageContains(logSearch.getSearch());
+			logsResult = listAllByMessageContains(logSearch);
 		} else {
 			logsResult = listAll();
 		}
