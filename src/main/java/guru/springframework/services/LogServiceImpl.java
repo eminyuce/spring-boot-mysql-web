@@ -27,9 +27,9 @@ public class LogServiceImpl implements LogService {
 	}
 
 	@Override
-	public List<Log> listAll() {
+	public List<Log> listAll(LogSearch logSearch) {
 		List<Log> logs = new ArrayList<>();
-		logRepository.findAll().forEach(logs::add); // fun with Java 8
+		logRepository.findAll(logSearch).forEach(logs::add); // fun with Java 8
 		return logs;
 	}
 
@@ -54,37 +54,45 @@ public class LogServiceImpl implements LogService {
 	}
 
 	@Override
+	public List<Log> findBySearch(LogSearch logSearch, String[] nfTypes, String[] logLevels) {
+		return logRepository.findBySearch(logSearch, nfTypes, logLevels);
+	}
+
+	@Override
 	public List<Log> listAllByLogSearch(LogSearch logSearch, String[] selectedNfNames, String[] loglevelNames) {
 		List<Log> logsResult = new ArrayList<Log>();
-		if (StringUtils.isNotEmpty(logSearch.getSearch())) {
-			logsResult = listAllByMessageContains(logSearch);
-		} else {
-			logsResult = listAll();
-		}
-		List<NfType> nfTypes = NfTypeUtil.getNfTypes(selectedNfNames);
-		logsResult = NfTypeUtil.extractLogByNfTypes(selectedNfNames, logsResult);
-		List<N5gLogLevel> n5gLogLevels = N5gLogLevelUtil.getLogLevels(loglevelNames);
-		logsResult = N5gLogLevelUtil.extractByLogLevel(loglevelNames, logsResult);
 
-		if (logSearch.getDataDetailExcluded() != null && StringUtils.isNotEmpty(logSearch.getDataDetailExcluded())) {
-			String[] elements = logSearch.getDataDetailExcluded().split(";", -1);
-			for (String element : elements) {
-				String trimmedElement = element.trim();
-				logsResult = logsResult.stream().filter(t -> !t.getData_detail().contains(trimmedElement))
-						.collect(Collectors.toList());
-			}
-		}
-		if (logSearch.getMessageExcluded() != null && StringUtils.isNotEmpty(logSearch.getMessageExcluded())) {
-			String[] elements = logSearch.getMessageExcluded().split(";", -1);
-			for (String element : elements) {
-				String trimmedElement = element.trim();
-				logsResult = logsResult.stream().filter(t -> !t.getMessage().contains(trimmedElement))
-						.collect(Collectors.toList());
-			}
-		}
+		List<NfType> nfTypes = NfTypeUtil.getNfTypes(selectedNfNames);
+		List<N5gLogLevel> n5gLogLevels = N5gLogLevelUtil.getLogLevels(loglevelNames);
+		logsResult = findBySearch(logSearch, selectedNfNames, loglevelNames);
+
+		String dataDetailExcluded = logSearch.getDataDetailExcluded();
+		logsResult = extractData(logsResult, dataDetailExcluded,true);
+		logsResult = extractData(logsResult, logSearch.getMessageExcluded(),false);
 		logSearch.setLogLevels(n5gLogLevels);
 		logSearch.setNfTypes(nfTypes);
 
 		return logsResult;
 	}
+
+	private List<Log> extractData(List<Log> logsResult, String searchKey,boolean isDataDetail) {
+		if (searchKey != null && StringUtils.isNotEmpty(searchKey)) {
+			String[] elements = searchKey.split(";", -1);
+			List<Log> resultSet = new ArrayList<Log>();
+			for (String element : elements) {
+				String trimmedElement = element.trim();
+				for (int i = 0; i < logsResult.size(); i++) {
+					if (isDataDetail && !logsResult.get(i).getData_detail().contains(trimmedElement)) {
+						resultSet.add(logsResult.get(i));
+					}else if (!isDataDetail && !logsResult.get(i).getMessage().contains(trimmedElement)) {
+						resultSet.add(logsResult.get(i));
+					}
+				}
+			}
+			return resultSet;
+		} else {
+			return logsResult;
+		}
+	}
+
 }

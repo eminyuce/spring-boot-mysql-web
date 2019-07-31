@@ -7,7 +7,7 @@ import guru.springframework.entity.LogSearch;
 
 public interface LogService {
 
-	List<Log> listAll();
+	List<Log> listAll(LogSearch logSearch);
 
 	Log getById(int id);
 
@@ -18,5 +18,5 @@ public interface LogService {
 	List<Log> listAllByMessageContains(LogSearch logSearch);
 
 	List<Log> listAllByLogSearch(LogSearch logSearch, String[] selectedNfNames, String[] loglevelNames);
-
+	List<Log> findBySearch(LogSearch logSearch, String[] nfTypes, String[] logLevels) ;
 }
