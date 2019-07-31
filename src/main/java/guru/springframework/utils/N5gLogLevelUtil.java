@@ -13,9 +13,13 @@ import guru.springframework.entity.N5gLogLevel;
 public class N5gLogLevelUtil {
 	public static List<N5gLogLevel> getLogLevels(String[] loglevelNames) {
 		List<N5gLogLevel> n5gLogLevels = new ArrayList<N5gLogLevel>();
-		for (LogLevel l : LogLevel.values()) {
-			n5gLogLevels.add(new N5gLogLevel(l.toString(), false));
-		}
+		//TRACE, DEBUG, INFO, WARN, ERROR, FATAL, OFF
+		n5gLogLevels.add(new N5gLogLevel(LogLevel.TRACE.toString(), false));
+		n5gLogLevels.add(new N5gLogLevel(LogLevel.DEBUG.toString(), true));
+		n5gLogLevels.add(new N5gLogLevel(LogLevel.INFO.toString(), true));
+		n5gLogLevels.add(new N5gLogLevel(LogLevel.WARN.toString(), false));
+		n5gLogLevels.add(new N5gLogLevel(LogLevel.ERROR.toString(), false));
+		n5gLogLevels.add(new N5gLogLevel(LogLevel.FATAL.toString(), false));
 		if (loglevelNames != null && loglevelNames.length > 0) {
 			List<String> loglevelNameList = Arrays.asList(loglevelNames);
 			for (N5gLogLevel l : n5gLogLevels) {
@@ -28,7 +32,7 @@ public class N5gLogLevelUtil {
 		if (loglevelNames != null && loglevelNames.length > 0) {
 			List<String> loglevelNameList = Arrays.asList(loglevelNames);
 			logsResult = logsResult.stream()
-			         .filter(t ->  loglevelNameList.stream().anyMatch(t1 -> t.getLevel().equals(t1) ))
+			         .filter(t ->  loglevelNameList.stream().anyMatch(t1 -> t.getLevel().equalsIgnoreCase(t1) ))
 			         .collect(Collectors.toList());
 		}
 		return logsResult;

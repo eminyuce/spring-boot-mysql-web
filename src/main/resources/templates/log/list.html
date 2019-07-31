@@ -61,10 +61,27 @@
 						type="text">
 				</div>
 				<div class="col-md-4">
-					<input type="submit" value="Search" class="btn btn-danger btn-block wrn-btn">
+					<input type="submit" value="Search"
+						class="btn btn-danger btn-block wrn-btn">
 				</div>
 			</div>
-
+			<div class="row">
+				<div class="col-md-2">
+					<input class="form-control" placeholder="messageExcluded"
+						th:value="${LogSearch.messageExcluded}" name="messageExcluded"
+						id="messageExcluded" type="text">
+				</div>
+				<div class="col-md-2">
+					<input class="form-control" placeholder="dataDetailExcluded"
+						th:value="${LogSearch.dataDetailExcluded}"
+						name="dataDetailExcluded" id="dataDetailExcluded" type="text">
+				</div>
+				<div class="col-md-2">
+					<input class="form-control" placeholder="logLimit"
+						th:value="${LogSearch.logLimit}"
+						name="logLimit" id="logLimit" type="text">
+				</div>
+			</div>
 
 
 			<div th:fragment="table (logs)">
