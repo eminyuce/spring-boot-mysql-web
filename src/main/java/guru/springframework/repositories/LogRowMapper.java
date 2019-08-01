@@ -38,7 +38,7 @@ public class LogRowMapper implements RowMapper<Log> {
 		emp.setPei(rs.getString("pei"));
 		emp.setReq_sent_time(rs.getString("req_sent_time"));
 		emp.setResp_rec_time(rs.getString("resp_rec_time"));
-		emp.setSession_id(rs.getInt("session_id"));
+		emp.setSession_id(rs.getString("session_id"));
 		emp.setSnssai(rs.getString("snssai"));
 		emp.setSource_ip_port(rs.getString("source_ip_port"));
 		emp.setSpec_info(rs.getString("spec_info"));

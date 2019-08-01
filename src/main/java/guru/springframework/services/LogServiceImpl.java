@@ -2,7 +2,6 @@ package guru.springframework.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,26 +66,31 @@ public class LogServiceImpl implements LogService {
 		logsResult = findBySearch(logSearch, selectedNfNames, loglevelNames);
 
 		String dataDetailExcluded = logSearch.getDataDetailExcluded();
-		logsResult = extractData(logsResult, dataDetailExcluded,true);
-		logsResult = extractData(logsResult, logSearch.getMessageExcluded(),false);
+		logsResult = extractData(logsResult, dataDetailExcluded, true);
+		logsResult = extractData(logsResult, logSearch.getMessageExcluded(), false);
 		logSearch.setLogLevels(n5gLogLevels);
 		logSearch.setNfTypes(nfTypes);
 
 		return logsResult;
 	}
 
-	private List<Log> extractData(List<Log> logsResult, String searchKey,boolean isDataDetail) {
+	private List<Log> extractData(List<Log> logsResult, String searchKey, boolean isDataDetail) {
 		if (searchKey != null && StringUtils.isNotEmpty(searchKey)) {
 			String[] elements = searchKey.split(";", -1);
 			List<Log> resultSet = new ArrayList<Log>();
-			for (String element : elements) {
-				String trimmedElement = element.trim();
-				for (int i = 0; i < logsResult.size(); i++) {
-					if (isDataDetail && !logsResult.get(i).getData_detail().contains(trimmedElement)) {
-						resultSet.add(logsResult.get(i));
-					}else if (!isDataDetail && !logsResult.get(i).getMessage().contains(trimmedElement)) {
-						resultSet.add(logsResult.get(i));
-					}
+			for (int i = 0; i < logsResult.size(); i++) {
+				boolean foundRecordForDataDetail = false;
+				boolean foundRecordForMessage = false;
+				Log log = logsResult.get(i);
+				for (String element : elements) {
+					String trimmedElement = element.trim();
+					foundRecordForDataDetail = isDataDetail && !log.getData_detail().contains(trimmedElement)
+							&& !resultSet.contains(log);
+					foundRecordForMessage = !isDataDetail && !log.getMessage().contains(trimmedElement)
+							&& !resultSet.contains(log);
+				}
+				if (foundRecordForDataDetail || foundRecordForMessage) {
+					resultSet.add(log);
 				}
 			}
 			return resultSet;

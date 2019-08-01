@@ -55,7 +55,7 @@ public class Log {
 	@Column(name = "[level]")
 	private String level;
 
-	private int session_id;
+	private String session_id;
 
 	private String message;
 
@@ -242,11 +242,11 @@ public class Log {
 		this.level = level;
 	}
 
-	public int getSession_id() {
+	public String getSession_id() {
 		return session_id;
 	}
 
-	public void setSession_id(int session_id) {
+	public void setSession_id(String session_id) {
 		this.session_id = session_id;
 	}
 
@@ -364,11 +364,19 @@ public class Log {
 			case "TRACE":
 				result = "error";
 				break;
+			case "ERROR":
+				result = "error";
+				break;
 			default:
 				break;
 			}
 		}
 		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return this.id == ((Log) obj).id;
 	}
 
 }

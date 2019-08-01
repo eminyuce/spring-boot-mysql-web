@@ -37,16 +37,16 @@
 
 
 			<div class="row">
-				<div class="col-sm-12">
+				<div class="col-sm-5 col-sm-offset-1">
+				<b style="color:red">Filter By LOG_LEVEL:</b>
 					<th:block th:each="loglevel : ${LogSearch.LogLevels}">
 						<input type="checkbox" th:checked="${loglevel.selected}"
 							name="loglevelNames" th:value="${loglevel.name}" />
 						<label th:text="${loglevel.name}"></label>
 					</th:block>
 				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-12">
+				<div class="col-sm-5 col-sm-offset-1">
+			    <b style="color:red">Filter By NF_TYPE:</b>
 					<th:block th:each="nfType : ${LogSearch.NfTypes}">
 						<input type="checkbox" th:checked="${nfType.selected}"
 							name="selectedNfNames" th:value="${nfType.name}" />
@@ -85,7 +85,7 @@
 
 
 			<div th:fragment="table (logs)">
-				<div style="width: 95%;">
+				<div style="width: 100%;">
 					<table id="logs" class="table table-striped table-hover">
 						<thead>
 							<tr>
@@ -100,7 +100,7 @@
 						<tbody>
 							<th:block th:each="log : ${logs}">
 								<tr th:classappend="${log.getCssClass()}">
-									<td><span th:text="'ID:' +${log.id}"></span><br> <span
+									<td><b style="color:red" th:text="'ID:' +${log.id}"></b><br> <span
 										th:text="${log.log_time}"></span></td>
 									<td th:text="${log.spec_info}"></td>
 									<td><span th:text="'SUPI:' +${log.supi}"></span><br>
@@ -114,17 +114,23 @@
 										<span th:text="'SOURCE_IP_PORT:' +${log.source_ip_port}"></span><br>
 									</td>
 								</tr>
-								<tr th:attr="data-log_message=${log.id}"
+								<tr th:unless="${#strings.isEmpty(log.data_detail)}" th:attr="data-log_message=${log.id}"
 									th:classappend="${log.getCssClass()}">
-									<td colspan="6" class="textCol"><textarea disabled=""
-											style="width: 100%; height: 250px;"><span
-												th:text="${log.message}"></span></textarea></td>
+									<td colspan="6" class=" textCol">   
+									<b>DATA_DETAIL:</b>  <span style="width: 100%; height: 120px;" 
+												th:text="${log.data_detail}"></span> </td>
 								</tr>
-								<tr th:attr="data-log_exception=${log.id}"
+								<tr th:unless="${#strings.isEmpty(log.message)}" th:attr="data-log_message=${log.id}"
 									th:classappend="${log.getCssClass()}">
-									<td colspan="6" class="textCol"><span
-										th:unless="${#strings.isEmpty(log.exception)}" /></span> <code
-											th:text="${log.exception}"></code></td>
+									<td colspan="6" class=" textCol">   
+									<b>MESSAGE:</b> <span style="width: 100%; height: 120px;" 
+												th:text="${log.message}"></span> </td>
+								</tr>
+								<tr th:unless="${#strings.isEmpty(log.exception)}"  th:attr="data-log_exception=${log.id}"
+									th:classappend="${log.getCssClass()}">
+									<td colspan="6" class=" textCol">   
+									<b>EXCEPTION:</b> <span style="width: 100%; height: 120px;" 
+												th:text="${log.exception}"></span> </td>
 								</tr>
 							</th:block>
 						</tbody>
