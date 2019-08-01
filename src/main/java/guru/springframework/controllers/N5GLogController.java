@@ -36,9 +36,11 @@ public class N5GLogController {
 	@RequestMapping({ "/log/list", "/log" })
 	public String listLogs(@ModelAttribute LogSearch logSearch,
 			@RequestParam(value = "selectedNfNames", required = false) String[] selectedNfNames,
-			@RequestParam(value = "loglevelNames", required = false) String[] loglevelNames, Model model) {
+			@RequestParam(value = "loglevelNames", required = false) String[] loglevelNames,
+			@RequestParam(value = "fromList", required = false) String[] fromList, 
+			@RequestParam(value = "toList", required = false) String[] toList, Model model) {
 		List<Log> logsResult = new ArrayList<Log>();
-		logsResult = logService.listAllByLogSearch(logSearch,selectedNfNames,loglevelNames);
+		logsResult = logService.listAllByLogSearch(logSearch,selectedNfNames,loglevelNames,fromList,toList);
 		model.addAttribute("LogSearch", logSearch);
 		model.addAttribute("logs", logsResult);
 		return "log/list";

@@ -17,6 +17,12 @@ public interface LogService {
 
 	List<Log> listAllByMessageContains(LogSearch logSearch);
 
-	List<Log> listAllByLogSearch(LogSearch logSearch, String[] selectedNfNames, String[] loglevelNames);
-	List<Log> findBySearch(LogSearch logSearch, String[] nfTypes, String[] logLevels) ;
+	List<Log> listAllByLogSearch(LogSearch logSearch,
+			String[] selectedNfNames,
+			String[] loglevelNames,
+			String[] from, 
+			String[] to);
+	List<Log> findBySearch(LogSearch logSearch, String[] nfTypes, String[] logLevels,
+			String[] from, 
+			String[] to) ;
 }

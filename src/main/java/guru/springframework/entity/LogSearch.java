@@ -5,18 +5,40 @@ import java.util.List;
 
 public class LogSearch {
 	public String search;
-	List<NfType> nfTypes;
-	List<N5gLogLevel> logLevels;
+	private List<NfType> nfTypes;
+	private List<N5gLogLevel> logLevels;
 	private String messageExcluded;
 	private String dataDetailExcluded;
 	private int logLimit;
+	private List<NfType> fromNfTypesList;
+	private List<NfType> toNfTypesList;
 	
-	
+	public List<NfType> getFromNfTypesList() {
+		return fromNfTypesList;
+	}
 
+
+	public void setFromNfTypesList(List<NfType> fromNfTypesList) {
+		this.fromNfTypesList = fromNfTypesList;
+	}
+
+
+	public List<NfType> getToNfTypesList() {
+		return toNfTypesList;
+	}
+
+
+	public void setToNfTypesList(List<NfType> toNfTypesList) {
+		this.toNfTypesList = toNfTypesList;
+	}
+
+
+	
 	public LogSearch() {
 		search = "";
 		logLimit = 3000;
 	}
+	 
 
 	public List<N5gLogLevel> getLogLevels() {
 		return logLevels;

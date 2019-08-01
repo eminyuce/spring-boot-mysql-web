@@ -53,24 +53,32 @@ public class LogServiceImpl implements LogService {
 	}
 
 	@Override
-	public List<Log> findBySearch(LogSearch logSearch, String[] nfTypes, String[] logLevels) {
-		return logRepository.findBySearch(logSearch, nfTypes, logLevels);
+	public List<Log> findBySearch(LogSearch logSearch, String[] nfTypes, String[] logLevels,
+			String[] from, 
+			String[] to) {
+		return logRepository.findBySearch(logSearch, nfTypes, logLevels,from,to);
 	}
 
 	@Override
-	public List<Log> listAllByLogSearch(LogSearch logSearch, String[] selectedNfNames, String[] loglevelNames) {
+	public List<Log> listAllByLogSearch(LogSearch logSearch,
+			String[] selectedNfNames,
+			String[] loglevelNames,
+			String[] from, 
+			String[] to) {
 		List<Log> logsResult = new ArrayList<Log>();
 
-		List<NfType> nfTypes = NfTypeUtil.getNfTypes(selectedNfNames);
-		List<N5gLogLevel> n5gLogLevels = N5gLogLevelUtil.getLogLevels(loglevelNames);
-		logsResult = findBySearch(logSearch, selectedNfNames, loglevelNames);
+		
+	 
+		logsResult = findBySearch(logSearch, selectedNfNames, loglevelNames,from,to);
 
 		String dataDetailExcluded = logSearch.getDataDetailExcluded();
 		logsResult = extractData(logsResult, dataDetailExcluded, true);
 		logsResult = extractData(logsResult, logSearch.getMessageExcluded(), false);
-		logSearch.setLogLevels(n5gLogLevels);
-		logSearch.setNfTypes(nfTypes);
-
+		logSearch.setLogLevels(N5gLogLevelUtil.getLogLevels(loglevelNames));
+		logSearch.setNfTypes(NfTypeUtil.getNfTypes(selectedNfNames));
+		logSearch.setFromNfTypesList(NfTypeUtil.getNfTypes(from));
+		logSearch.setToNfTypesList(NfTypeUtil.getNfTypes(to));
+		
 		return logsResult;
 	}
 
