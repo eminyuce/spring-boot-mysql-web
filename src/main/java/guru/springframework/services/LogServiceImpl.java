@@ -77,23 +77,22 @@ public class LogServiceImpl implements LogService {
 	private List<Log> extractData(List<Log> logsResult, String searchKey, boolean isDataDetail) {
 		if (searchKey != null && StringUtils.isNotEmpty(searchKey)) {
 			String[] elements = searchKey.split(";", -1);
-			List<Log> resultSet = new ArrayList<Log>();
+			List<Log> logsResultCopy = new ArrayList<>(logsResult);
 			for (int i = 0; i < logsResult.size(); i++) {
 				boolean foundRecordForDataDetail = false;
 				boolean foundRecordForMessage = false;
 				Log log = logsResult.get(i);
 				for (String element : elements) {
 					String trimmedElement = element.trim();
-					foundRecordForDataDetail = isDataDetail && !log.getData_detail().contains(trimmedElement)
-							&& !resultSet.contains(log);
-					foundRecordForMessage = !isDataDetail && !log.getMessage().contains(trimmedElement)
-							&& !resultSet.contains(log);
+					foundRecordForDataDetail = isDataDetail && log.getData_detail().contains(trimmedElement);
+					foundRecordForMessage = !isDataDetail && log.getMessage().contains(trimmedElement);
+					if (foundRecordForDataDetail || foundRecordForMessage) {
+						logsResultCopy.remove(log);
+					}
 				}
-				if (foundRecordForDataDetail || foundRecordForMessage) {
-					resultSet.add(log);
-				}
+
 			}
-			return resultSet;
+			return logsResultCopy;
 		} else {
 			return logsResult;
 		}
