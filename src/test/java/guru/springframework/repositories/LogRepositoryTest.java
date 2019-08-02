@@ -5,6 +5,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -25,6 +31,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
 import guru.springframework.domain.Log;
+import guru.springframework.utils.DateTimeUtils;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -36,6 +43,30 @@ public class LogRepositoryTest {
 	@Before
 	public void setUp() throws Exception {
 
+	}
+
+	@Test
+	public void parseDate() throws ParseException, JSONException, IllegalAccessException, java.text.ParseException {
+		String strDate = "20190802063652";
+		System.out.println(DateTimeUtils.getDateTimeFormatted(strDate));
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date dateStr = formatter.parse(strDate);
+		String formattedDate = formatter.format(dateStr);
+		System.out.println("yyyy-MM-dd date is ==>" + formattedDate);
+		Date date1 = formatter.parse(formattedDate);
+//Cannot convert string '20190802063652' to java.sql.Date value
+		formatter = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
+		formattedDate = formatter.format(date1);
+		System.out.println("dd-MMM-yyyy date is ==>" + formattedDate);
+		
+		DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime dateTime = LocalDateTime.parse(formatter.format(date1), formatter2);
+		LocalDate toDateTime =LocalDate.now();
+		long minutes = dateTime.until( toDateTime, ChronoUnit.MINUTES);
+		
+		System.out.println("minutes ==>" + minutes);
+		
 	}
 
 	@Test

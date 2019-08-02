@@ -16,7 +16,10 @@
 <style type="text/css">
 .container-full {
 	margin: 0 auto;
-	width: 98%;
+	width: 100%;
+}
+.table-condensed{
+  font-size: 12px;
 }
 </style>
 </head>
@@ -106,7 +109,7 @@
 
 			<div th:fragment="table (logs)">
 				<div style="width: 100%;">
-					<table id="logs" class="table table-striped table-hover">
+					<table id="logs" class="table table-striped table-hover table-condensed">
 						<thead>
 							<tr>
 								<th scope="col" style="width: 3%">Id-LOG_TIME</th>
@@ -121,11 +124,14 @@
 							<th:block th:each="log : ${logs}">
 								<tr th:classappend="${log.getCssClass()}">
 									<td><b style="color: red" th:text="'ID:' +${log.id}"></b><br>
-										<span th:text="${log.log_time}"></span></td>
+										<span th:text="${log.log_time}"></span>
+										<span th:unless="${#strings.isEmpty(log.getLogTimeMinute())}" th:text="${log.getLogTimeMinute()}"></span>
+										<br><span  th:unless="${#strings.isEmpty(log.status)}" th:text="'Status ' +${log.status}"></span>
+										</td>
 									<td th:text="${log.spec_info}"></td>
-									<td><span th:text="'SUPI:' +${log.supi}"></span><br>
-										<span th:text="'PEI:' +${log.pei}"></span><br> <span
-										th:text="'SNSSAI:' +${log.snssai}"></span><br></td>
+									<td><span th:unless="${#strings.isEmpty(log.supi)}" th:text="'SUPI:' +${log.supi}"></span><br>
+										<span  th:unless="${#strings.isEmpty(log.pei)}" th:text="'PEI:' +${log.pei}"></span><br> <span
+									th:unless="${#strings.isEmpty(log.snssai)}" 	th:text="'SNSSAI:' +${log.snssai}"></span><br></td>
 									<td><span
 										th:text="'NFYPE:' +${log.nf_type}+ ' NFNAME ' +${log.nf_name}"></span></td>
 									<td class="textCol"><span

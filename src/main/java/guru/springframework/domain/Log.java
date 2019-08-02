@@ -1,5 +1,10 @@
 package guru.springframework.domain;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -346,6 +351,18 @@ public class Log {
 		this.status = status;
 	}
 
+	public String getLogTimeMinute() {
+		String result = "";
+		if (StringUtils.isAllEmpty(log_time)) {
+			result = "";
+		} else {
+			long minutes = 10;
+			result=minutes+"";
+		}
+		
+		return result;
+	}
+
 	public String getCssClass() {
 		String result = "";
 		if (StringUtils.isAllEmpty(level)) {
@@ -371,7 +388,7 @@ public class Log {
 				break;
 			}
 		}
-		return result;
+		return result+",styleRow";
 	}
 
 	@Override
