@@ -61,11 +61,15 @@ public class LogRepository {
 		sql = sql.replace(":supi",logSearch.getSupi().trim());
 		sql = sql.replace(":snssai",logSearch.getSnssai().trim());
 		
-		sql = sql.replace("AND `from` IN ()", "");
-		sql = sql.replace("AND `to` IN ()", "");
-		sql = sql.replace("AND nf_type IN ()", "");
-		sql = sql.replace("AND level IN ()", "");
-		sql = sql.replace("AND status IN ()", "");
+		sql = sql.replace("AND snssai like '%%'", " ");
+		sql = sql.replace("AND supi like '%%'", " ");
+		sql = sql.replace("AND status like '%%'", " ");
+		sql = sql.replace("AND ( message like '%%' OR data_detail LIKE '%%' ) ", " ");
+		sql = sql.replace("AND `from` IN ()", " ");
+		sql = sql.replace("AND `to` IN ()", " ");
+		sql = sql.replace("AND nf_type IN ()", " ");
+		sql = sql.replace("AND level IN ()", " ");
+		sql = sql.replace("AND status IN ()", " ");
 		
 		logSearch.setSql(sql);
 		return jdbcTemplate.query(sql, logRowMapper);
