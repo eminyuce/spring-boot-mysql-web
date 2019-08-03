@@ -2,25 +2,29 @@ package i2i.n5g.logs.entity;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import i2i.n5g.logs.domain.Log;
 
-
 public class LogSearch {
+	
+
 	public String search;
 	private List<NfType> nfTypes;
 	private List<N5gLogLevel> logLevels;
-	private String messageExcluded;
-	private String dataDetailExcluded;
 	private int logLimit;
 	private List<NfType> fromNfTypesList;
 	private List<NfType> toNfTypesList;
 	private String sql;
+	private String supi;
 	private String httpStatus;
 	
 	public LogSearch() {
 		search = "";
 		logLimit = 3000;
 		httpStatus="";
+		supi="";
 	}
 	 
 	
@@ -68,23 +72,7 @@ public class LogSearch {
 	public void setSearch(String search) {
 		this.search = search;
 	}
-
-	public String getMessageExcluded() {
-		return messageExcluded;
-	}
-
-	public void setMessageExcluded(String messageExcluded) {
-		this.messageExcluded = messageExcluded;
-	}
-
-	public String getDataDetailExcluded() {
-		return dataDetailExcluded;
-	}
-
-	public void setDataDetailExcluded(String dataDetailExcluded) {
-		this.dataDetailExcluded = dataDetailExcluded;
-	}
-
+ 
 	public int getLogLimit() {
 		return logLimit;
 	}
@@ -110,6 +98,18 @@ public class LogSearch {
 
 	public void setHttpStatus(String httpStatus) {
 		this.httpStatus = httpStatus;
+	}
+
+
+
+	public String getSupi() {
+		return supi;
+	}
+
+
+
+	public void setSupi(String supi) {
+		this.supi = supi;
 	}
 
 }

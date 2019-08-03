@@ -69,9 +69,9 @@ public class LogServiceImpl implements LogService {
 	 
 		logsResult = findBySearch(logSearch, selectedNfNames, loglevelNames,from,to);
 
-		String dataDetailExcluded = logSearch.getDataDetailExcluded();
-		logsResult = extractData(logsResult, dataDetailExcluded, true);
-		logsResult = extractData(logsResult, logSearch.getMessageExcluded(), false);
+		//String dataDetailExcluded = logSearch.getDataDetailExcluded();
+		//logsResult = extractData(logsResult, dataDetailExcluded, true);
+		//logsResult = extractData(logsResult, logSearch.getMessageExcluded(), false);
 		logSearch.setLogLevels(N5gLogLevelUtil.getLogLevels(loglevelNames));
 		logSearch.setNfTypes(NfTypeUtil.getNfTypes(selectedNfNames));
 		logSearch.setFromNfTypesList(NfTypeUtil.getNfTypes(from));

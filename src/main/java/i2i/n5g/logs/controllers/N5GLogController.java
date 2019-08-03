@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.logging.LogLevel;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,11 @@ public class N5GLogController {
 
 	private LogService logService;
 
+
+	
+
+	
+	
 	@Autowired
 	public N5GLogController(LogService logService) {
 		this.logService = logService;
@@ -40,6 +46,7 @@ public class N5GLogController {
 			@RequestParam(value = "fromList", required = false) String[] fromList, 
 			@RequestParam(value = "toList", required = false) String[] toList, Model model) {
 		List<Log> logsResult = new ArrayList<Log>();
+ 
 		logsResult = logService.listAllByLogSearch(logSearch,selectedNfNames,loglevelNames,fromList,toList);
 		model.addAttribute("LogSearch", logSearch);
 		model.addAttribute("logs", logsResult);

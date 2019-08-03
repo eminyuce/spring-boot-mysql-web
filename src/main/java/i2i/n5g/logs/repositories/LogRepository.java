@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -20,6 +21,11 @@ public class LogRepository {
 	private NamedParameterJdbcTemplate jdbcTemplate;
 	@Autowired
 	private LogRowMapper logRowMapper;
+	
+	
+	@Value("${app.sql.excluded}")
+	private String sqlExcluded;
+	
 
 	public List<Log> findByMessageContains(LogSearch logSearch) {
 		MapSqlParameterSource parameters = new MapSqlParameterSource();
@@ -39,10 +45,12 @@ public class LogRepository {
 	public List<Log> findBySearch(LogSearch logSearch, String[] nfTypes, String[] logLevels, String[] from,
 			String[] to) {
 
-		String sql = "SELECT * FROM app_logs  where ( message like '%:search%' OR data_detail LIKE '%:search%' ) "
+ 			
+		String sql = "SELECT * FROM app_logs WHERE  :sqlExcluded AND ( message like '%:search%' OR data_detail LIKE '%:search%' ) "
 				+ " AND `from` IN (:fromList)  AND `to` IN (:toList)  AND nf_type IN (:nfTypes)  "
-				+ " AND level IN (:logLevels) AND status like '%:status%' order by id desc limit :limit ";
-
+				+ " AND level IN (:logLevels) AND status like '%:status%' AND supi like '%:supi%' order by log_time desc limit :limit ";
+		
+		sql = sql.replace(":sqlExcluded", sqlExcluded);
 		sql = sql.replace(":search", logSearch.getSearch());
 		sql = sql.replace(":limit", logSearch.getLogLimit() + "");
 		sql = sql.replace(":nfTypes", formatINSql(nfTypes));
@@ -50,6 +58,7 @@ public class LogRepository {
 		sql = sql.replace(":toList", formatINSql(to));
 		sql = sql.replace(":logLevels", formatINSql(logLevels));
 		sql = sql.replace(":status",logSearch.getHttpStatus());
+		sql = sql.replace(":supi",logSearch.getSupi());
 		
 		sql = sql.replace("AND `from` IN ()", "");
 		sql = sql.replace("AND `to` IN ()", "");
