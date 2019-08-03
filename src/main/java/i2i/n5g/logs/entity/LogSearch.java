@@ -18,6 +18,7 @@ public class LogSearch {
 	private List<NfType> toNfTypesList;
 	private String sql;
 	private String supi;
+	private String snssai; 
 	private String httpStatus;
 	
 	public LogSearch() {
@@ -25,6 +26,7 @@ public class LogSearch {
 		logLimit = 3000;
 		httpStatus="";
 		supi="";
+		snssai="";
 	}
 	 
 	
@@ -110,6 +112,18 @@ public class LogSearch {
 
 	public void setSupi(String supi) {
 		this.supi = supi;
+	}
+
+
+
+	public String getSnssai() {
+		return snssai;
+	}
+
+
+
+	public void setSnssai(String snssai) {
+		this.snssai = snssai;
 	}
 
 }

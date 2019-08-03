@@ -48,17 +48,18 @@ public class LogRepository {
  			
 		String sql = "SELECT * FROM app_logs WHERE  :sqlExcluded AND ( message like '%:search%' OR data_detail LIKE '%:search%' ) "
 				+ " AND `from` IN (:fromList)  AND `to` IN (:toList)  AND nf_type IN (:nfTypes)  "
-				+ " AND level IN (:logLevels) AND status like '%:status%' AND supi like '%:supi%' order by log_time desc limit :limit ";
+				+ " AND level IN (:logLevels) AND status like '%:status%' AND supi like '%:supi%'  AND snssai like '%:snssai%' order by log_time desc limit :limit ";
 		
 		sql = sql.replace(":sqlExcluded", sqlExcluded);
-		sql = sql.replace(":search", logSearch.getSearch());
+		sql = sql.replace(":search", logSearch.getSearch().trim());
 		sql = sql.replace(":limit", logSearch.getLogLimit() + "");
 		sql = sql.replace(":nfTypes", formatINSql(nfTypes));
 		sql = sql.replace(":fromList", formatINSql(from));
 		sql = sql.replace(":toList", formatINSql(to));
 		sql = sql.replace(":logLevels", formatINSql(logLevels));
-		sql = sql.replace(":status",logSearch.getHttpStatus());
-		sql = sql.replace(":supi",logSearch.getSupi());
+		sql = sql.replace(":status",logSearch.getHttpStatus().trim());
+		sql = sql.replace(":supi",logSearch.getSupi().trim());
+		sql = sql.replace(":snssai",logSearch.getSnssai().trim());
 		
 		sql = sql.replace("AND `from` IN ()", "");
 		sql = sql.replace("AND `to` IN ()", "");
@@ -71,7 +72,7 @@ public class LogRepository {
 	}
 
 	private String formatINSql(String[] parameters) {
-		String result = String.join(",", getSingleQuote(parameters));
+		String result = String.join(",", getSingleQuote(parameters)).trim();
 		return result;
 	}
 
