@@ -149,7 +149,7 @@
 								<tr th:classappend="${log.getCssClass()}">
 									<td><b style="color: red; font-size:large" th:text="'ID:' +${log.id}"></b><br>
 										<b style="color: black;" th:text="${log.log_time}"></b>   
-											
+											<br>
 									 <span
 										th:unless="${#strings.isEmpty(log.level)}"> Level:<b class="logData" th:text="${log.level}"></b>
 									</span>
@@ -226,14 +226,14 @@
 								</tr>
 								<tr th:unless="${#strings.isEmpty(log.message)}"
 									th:attr="data-log_message=${log.id}"
-									th:classappend="${log.getCssClass()}">
+									class="warning">
 									<td colspan="6" class=" textCol"><b>MESSAGE:</b> <span
 										style="width: 100%; height: 120px;" th:text="${log.message}"></span>
 									</td>
 								</tr>
 								<tr th:unless="${#strings.isEmpty(log.exception)}"
 									th:attr="data-log_exception=${log.id}"
-									th:classappend="${log.getCssClass()}">
+									class="danger">
 									<td colspan="6" class=" textCol"><b>JAVA EXCEPTION:</b> <span
 										style="width: 100%; height: 120px;" th:text="${log.exception}"></span>
 									</td>
