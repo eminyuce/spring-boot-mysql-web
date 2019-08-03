@@ -10,7 +10,10 @@ import i2i.n5g.logs.utils.NfTypeUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -28,11 +31,6 @@ public class N5GLogController {
 
 	private LogService logService;
 
-
-	
-
-	
-	
 	@Autowired
 	public N5GLogController(LogService logService) {
 		this.logService = logService;
@@ -43,20 +41,22 @@ public class N5GLogController {
 	public String listLogs(@ModelAttribute LogSearch logSearch,
 			@RequestParam(value = "selectedNfNames", required = false) String[] selectedNfNames,
 			@RequestParam(value = "loglevelNames", required = false) String[] loglevelNames,
-			@RequestParam(value = "fromList", required = false) String[] fromList, 
+			@RequestParam(value = "fromList", required = false) String[] fromList,
 			@RequestParam(value = "toList", required = false) String[] toList, Model model) {
 		List<Log> logsResult = new ArrayList<Log>();
- 
-		logsResult = logService.listAllByLogSearch(logSearch,selectedNfNames,loglevelNames,fromList,toList);
+
+		logsResult = logService.listAllByLogSearch(logSearch, selectedNfNames, loglevelNames, fromList, toList);
 		model.addAttribute("LogSearch", logSearch);
 		model.addAttribute("logs", logsResult);
+		
+
+		 Map<String, Long> counting = logsResult.stream()    .sorted(Comparator.comparing(p -> p.getLevel())) .collect(
+	                Collectors.groupingBy(Log::getLevel, Collectors.counting()));
+        
+		model.addAttribute("logsLevels",counting);
+		model.addAttribute("logsJavaException",
+				logsResult.stream().filter(c -> c.getException().length() > 0).collect(Collectors.toList()));
 		return "log/list";
 	}
-
-
-
-
-
-
 
 }

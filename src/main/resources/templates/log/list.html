@@ -42,20 +42,8 @@
 <body>
 	<b style="font-size: 10px;" th:text="${LogSearch.sql}"></b>
 	<div class="container-fluid">
-		<div class="container">
-			<div class="panel panel-info">
-				<div class="panel-body">
-					<b th:text="${logs.size()}"></b> Record Found &nbsp;&nbsp; <b
-						th:text="${logs.size()}"></b> Error Log Found&nbsp;&nbsp; <b
-						th:text="${logs.size()}"></b> Java Exception Found&nbsp;&nbsp;
-				</div>
-			</div>
-		</div>
-
 
 		<form th:object="${LogSearch}" th:action="@{/log/list}" method="get">
-
-
 			<div class="row">
 				<div class="col-sm-5">
 					<b style="color: red">Filter By LOG_LEVEL:</b>
@@ -73,11 +61,8 @@
 						<label th:text="${fromItem.name}"></label>
 					</th:block>
 				</div>
-
 			</div>
-
 			<div class="row">
-
 				<div class="col-sm-5">
 					<b style="color: red">Filter By NF_TYPE:</b>
 					<th:block th:each="nfType : ${LogSearch.NfTypes}">
@@ -95,7 +80,6 @@
 					</th:block>
 				</div>
 			</div>
-
 			<div class="row">
 				<div class="col-md-2">
 					<input class="form-control" placeholder="Search"
@@ -104,8 +88,7 @@
 				</div>
 				<div class="col-md-2">
 					<input class="form-control" placeholder="supi"
-						th:value="${LogSearch.supi}" name="supi" id="supi"
-						type="text">
+						th:value="${LogSearch.supi}" name="supi" id="supi" type="text">
 				</div>
 				<div class="col-md-2">
 					<input class="form-control" placeholder="snssai"
@@ -114,8 +97,8 @@
 				</div>
 				<div class="col-md-1">
 					<input class="form-control" placeholder="Http Status"
-						th:value="${LogSearch.HttpStatus}"
-						name="httpStatus" id="HttpStatus" type="text">
+						th:value="${LogSearch.HttpStatus}" name="httpStatus"
+						id="HttpStatus" type="text">
 				</div>
 				<div class="col-md-1">
 					<input class="form-control" placeholder="logLimit"
@@ -126,9 +109,16 @@
 					<input type="submit" value="Search"
 						class="btn btn-danger btn-block wrn-btn">
 				</div>
+
 			</div>
 
-
+			<b th:text="${logs.size()}"></b> Records Found &nbsp;
+			<span th:each="element : ${logsLevels}">
+				<b th:text="${element.value}"></b> <span th:text="${element.key}">
+					 </span>  Logs Found&nbsp;
+			</span>
+			<b th:text="${logsJavaException.size()}"></b> Java Exceptions
+			Found&nbsp;
 			<div th:fragment="table (logs)">
 				<div style="width: 100%;">
 					<table id="logs"
