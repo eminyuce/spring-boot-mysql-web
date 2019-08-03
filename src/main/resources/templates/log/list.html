@@ -148,13 +148,16 @@
 							<th:block th:each="log : ${logs}">
 								<tr th:classappend="${log.getCssClass()}">
 									<td><b style="color: red; font-size:large" th:text="'ID:' +${log.id}"></b><br>
-										<b style="color: black;" th:text="${log.log_time}"></b>   <span
-										th:unless="${#strings.isEmpty(log.status)}">Status:<b
-											class="logData" th:text="${log.status}"></b></span>
-											<br> 
-											<span
+										<b style="color: black;" th:text="${log.log_time}"></b>   
+											
+									 <span
+										th:unless="${#strings.isEmpty(log.level)}"> Level:<b class="logData" th:text="${log.level}"></b>
+									</span>
+									<br> 
+									<span
 										th:unless="${#strings.isEmpty(log.session_id)}"> SessionId:<b class="logData" th:text="${log.session_id}"></b>
-									</span><br> 
+									</span>
+									
 											</td>
 									 
 									<td><span th:unless="${#strings.isEmpty(log.supi)}">SUPI:<b
@@ -188,8 +191,18 @@
 									</span> - <span th:unless="${#strings.isEmpty(log.to)}"> TO:<b
 											class="logData" th:text="${log.to}"></b>
 									</span>  
+									<br> 
+									 <span
+										th:unless="${#strings.isEmpty(log.logger)}"> Logger:<b class="logData" th:text="${log.logger}"></b>
+									</span>  
 									</td>
-									<td><span
+									<td>
+									<span
+										th:unless="${#strings.isEmpty(log.status)}">HTTP Status:<b
+											class="logData" th:text="${log.status}"></b></span>
+											<br> 
+											
+									<span
 										th:unless="${#strings.isEmpty(log.dest_ip_port)}"> DEST
 											IP PORT:<b class="logData" th:text="${log.dest_ip_port}"></b>
 									</span> <br> <span
@@ -197,12 +210,11 @@
 											SOURCE IP PORT:<b class="logData"
 											th:text="${log.source_ip_port}"></b>
 									</span><br> 
-									 <span
-										th:unless="${#strings.isEmpty(log.logger)}"> Logger:<b class="logData" th:text="${log.logger}"></b>
-									</span><br> 
-									 <span
-										th:unless="${#strings.isEmpty(log.level)}"> Level:<b class="logData" th:text="${log.level}"></b>
-									</span>
+									<span
+										th:unless="${#strings.isEmpty(log.status_description)}"><b
+											class="logData" th:text="${log.status_description}"></b></span>
+											
+									
 									</td>
 								</tr>
 								<tr th:unless="${#strings.isEmpty(log.data_detail)}"
