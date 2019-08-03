@@ -123,6 +123,9 @@
 					<input type="submit" name="SearchBtn" value="Search"
 						class="btn btn-black btn-block wrn-btn">
 				</div>
+				<div  th:unless="${#strings.isEmpty(LogSearch.searchBtn)}" class="col-md-1">
+					<a href="/log/list"	class="btn btn-default btn-block wrn-btn">Clear</a>
+				</div>
 			</div>
 
 			<b th:text="${logs.size()}"></b> Records Found &nbsp; <span

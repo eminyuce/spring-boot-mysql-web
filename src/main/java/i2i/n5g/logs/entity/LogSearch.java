@@ -22,7 +22,7 @@ public class LogSearch {
 	private String httpStatus;
 	private String destinationIp;
 	private String sourceIp;
-	
+	private String searchBtn;
 	public LogSearch() {
 		search = "";
 		logLimit = 5000;
@@ -30,7 +30,8 @@ public class LogSearch {
 		supi="";
 		snssai="";
 		destinationIp="";
-		sourceIp="";
+		sourceIp="";	
+		searchBtn="";
 	}
 	 
 	
@@ -152,6 +153,18 @@ public class LogSearch {
 
 	public void setSourceIp(String sourceIp) {
 		this.sourceIp = sourceIp;
+	}
+
+
+
+	public String getSearchBtn() {
+		return searchBtn;
+	}
+
+
+
+	public void setSearchBtn(String searchBtn) {
+		this.searchBtn = searchBtn;
 	}
 
 }
