@@ -49,16 +49,16 @@
 					<b style="color: red">Filter By LOG_LEVEL:</b>
 					<th:block th:each="loglevel : ${LogSearch.LogLevels}">
 						<input type="checkbox" th:checked="${loglevel.selected}"
-							name="loglevelNames" th:value="${loglevel.name}" />
-						<label th:text="${loglevel.name}"></label>
+						 th:id="${loglevel.name}" 	name="loglevelNames" th:value="${loglevel.name}" />
+						<label   th:for="${loglevel.name}"  th:text="${loglevel.name}"></label>
 					</th:block>
 				</div>
 				<div class="col-sm-5">
 					<b style="color: red">Filter By FROM:</b>
 					<th:block th:each="fromItem : ${LogSearch.fromNfTypesList}">
 						<input type="checkbox" th:checked="${fromItem.selected}"
-							name="fromList" th:value="${fromItem.name}" />
-						<label th:text="${fromItem.name}"></label>
+						 th:id="'from'+${fromItem.name}"	name="fromList" th:value="${fromItem.name}" />
+						<label th:for="'from'+${fromItem.name}" th:text="${fromItem.name}"></label>
 					</th:block>
 				</div>
 			</div>
@@ -67,16 +67,16 @@
 					<b style="color: red">Filter By NF_TYPE:</b>
 					<th:block th:each="nfType : ${LogSearch.NfTypes}">
 						<input type="checkbox" th:checked="${nfType.selected}"
-							name="selectedNfNames" th:value="${nfType.name}" />
-						<label th:text="${nfType.name}"></label>
+							 th:id="'nfType'+${nfType.name}"	name="selectedNfNames" th:value="${nfType.name}" />
+						<label th:for="'nfType'+${nfType.name}" th:text="${nfType.name}"></label>
 					</th:block>
 				</div>
 				<div class="col-sm-5">
 					<b style="color: red">Filter By TO:</b>
 					<th:block th:each="toItem : ${LogSearch.toNfTypesList}">
 						<input type="checkbox" th:checked="${toItem.selected}"
-							name="toList" th:value="${toItem.name}" />
-						<label th:text="${toItem.name}"></label>
+						 th:id="'to'+${toItem.name}"		name="toList" th:value="${toItem.name}" />
+						<label  th:for="'to'+${toItem.name}"  th:text="${toItem.name}"></label>
 					</th:block>
 				</div>
 			</div>
