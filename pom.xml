@@ -4,13 +4,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>guru.springframework</groupId>
-	<artifactId>spring-boot-mysql</artifactId>
+	<groupId>i2i.n5g.logs</groupId>
+	<artifactId>i2i.n5g.logs</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>spring-boot-mysql</name>
-	<description>Demo project for Spring Boot and MySQL</description>
+	<name>i2i.n5g.logs</name>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
