@@ -379,25 +379,25 @@ public class Log {
 //			
 			switch (level) {
 			case "INFO":
-				result = "table-info";
+				result = "success";
 				break;
 			case "":
-				result = "table-success";
+				result = "success";
 				break;
 			case "DEBUG":
-				result = "table-warning";
+				result = "info";
 				break;
 			case "TRACE":
-				result = "table-error";
+				result = "warning";
 				break;
 			case "ERROR":
-				result = "table-error";
+				result = "danger";
 				break;
 			default:
 				break;
 			}
 		}
-		return result+",styleRow";
+		return result;
 	}
 
 	@Override

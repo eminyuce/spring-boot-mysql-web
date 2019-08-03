@@ -146,7 +146,7 @@
 						</thead>
 						<tbody>
 							<th:block th:each="log : ${logs}">
-								<tr th:classappend="${log.getCssClass()}">
+								<tr>
 									<td><b style="color: red; font-size:large" th:text="'ID:' +${log.id}"></b><br>
 										<b style="color: black;" th:text="${log.log_time}"></b>   
 											<br>
