@@ -48,7 +48,8 @@ public class LogRepository {
  			
 		String sql = "SELECT * FROM app_logs WHERE  :sqlExcluded AND ( message like '%:search%' OR data_detail LIKE '%:search%' ) "
 				+ " AND `from` IN (:fromList)  AND `to` IN (:toList)  AND nf_type IN (:nfTypes)  "
-				+ " AND level IN (:logLevels) AND status like '%:status%' AND supi like '%:supi%'  AND snssai like '%:snssai%' order by log_time desc limit :limit ";
+				+ " AND level IN (:logLevels) AND status like '%:status%' AND supi like '%:supi%'  "
+				+ " AND dest_ip_port like '%:dest_ip_port%'   AND source_ip_port like '%:source_ip_port%'   AND snssai like '%:snssai%' order by log_time desc limit :limit ";
 		
 		sql = sql.replace(":sqlExcluded", sqlExcluded);
 		sql = sql.replace(":search", logSearch.getSearch().trim());
@@ -60,7 +61,11 @@ public class LogRepository {
 		sql = sql.replace(":status",logSearch.getHttpStatus().trim());
 		sql = sql.replace(":supi",logSearch.getSupi().trim());
 		sql = sql.replace(":snssai",logSearch.getSnssai().trim());
+		sql = sql.replace(":dest_ip_port",logSearch.getDestinationIp().trim());
+		sql = sql.replace(":source_ip_port",logSearch.getSourceIp().trim());
 		
+		sql = sql.replace("AND source_ip_port like '%%'", " ");
+		sql = sql.replace("AND dest_ip_port like '%%'", " ");
 		sql = sql.replace("AND snssai like '%%'", " ");
 		sql = sql.replace("AND supi like '%%'", " ");
 		sql = sql.replace("AND status like '%%'", " ");

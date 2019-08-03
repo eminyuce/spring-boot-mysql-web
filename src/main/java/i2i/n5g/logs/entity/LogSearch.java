@@ -20,13 +20,17 @@ public class LogSearch {
 	private String supi;
 	private String snssai; 
 	private String httpStatus;
+	private String destinationIp;
+	private String sourceIp;
 	
 	public LogSearch() {
 		search = "";
-		logLimit = 3000;
+		logLimit = 5000;
 		httpStatus="";
 		supi="";
 		snssai="";
+		destinationIp="";
+		sourceIp="";
 	}
 	 
 	
@@ -124,6 +128,30 @@ public class LogSearch {
 
 	public void setSnssai(String snssai) {
 		this.snssai = snssai;
+	}
+
+
+
+	public String getDestinationIp() {
+		return destinationIp;
+	}
+
+
+
+	public void setDestinationIp(String destinationIp) {
+		this.destinationIp = destinationIp;
+	}
+
+
+
+	public String getSourceIp() {
+		return sourceIp;
+	}
+
+
+
+	public void setSourceIp(String sourceIp) {
+		this.sourceIp = sourceIp;
 	}
 
 }
