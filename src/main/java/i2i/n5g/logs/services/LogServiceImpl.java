@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import i2i.n5g.logs.domain.Log;
 import i2i.n5g.logs.entity.LogSearch;
-import i2i.n5g.logs.entity.N5gLogLevel;
-import i2i.n5g.logs.entity.NfType;
 import i2i.n5g.logs.repositories.LogRepository;
 import i2i.n5g.logs.utils.N5gLogLevelUtil;
 import i2i.n5g.logs.utils.NfTypeUtil;
@@ -28,13 +26,16 @@ public class LogServiceImpl implements LogService {
 	@Override
 	public List<Log> listAll(LogSearch logSearch) {
 		List<Log> logs = new ArrayList<>();
-		logRepository.findAll(logSearch).forEach(logs::add); // fun with Java 8
+		// logRepository.findAll(logSearch).forEach(logs::add); // fun with Java 8
 		return logs;
 	}
 
 	@Override
 	public List<Log> listAllByMessageContains(LogSearch logSearch) {
-		return logRepository.findByMessageContains(logSearch);
+		// return logRepository.findByMessageContains(logSearch);
+		List<Log> logs = new ArrayList<>();
+		// logRepository.findAll(logSearch).forEach(logs::add); // fun with Java 8
+		return logs;
 	}
 
 	@Override
@@ -53,30 +54,26 @@ public class LogServiceImpl implements LogService {
 	}
 
 	@Override
-	public List<Log> findBySearch(LogSearch logSearch, String[] nfTypes, String[] logLevels,
-			String[] from, 
+	public List<Log> findBySearch(LogSearch logSearch, String[] nfTypes, String[] logLevels, String[] from,
 			String[] to) {
-		return logRepository.findBySearch(logSearch, nfTypes, logLevels,from,to);
+		return logRepository.findBySearch(logSearch, nfTypes, logLevels, from, to);
 	}
 
 	@Override
-	public List<Log> listAllByLogSearch(LogSearch logSearch,
-			String[] selectedNfNames,
-			String[] loglevelNames,
-			String[] from, 
-			String[] to) {
+	public List<Log> listAllByLogSearch(LogSearch logSearch, String[] selectedNfNames, String[] loglevelNames,
+			String[] from, String[] to) {
 		List<Log> logsResult = new ArrayList<Log>();
-	 
-		logsResult = findBySearch(logSearch, selectedNfNames, loglevelNames,from,to);
 
-		//String dataDetailExcluded = logSearch.getDataDetailExcluded();
-		//logsResult = extractData(logsResult, dataDetailExcluded, true);
-		//logsResult = extractData(logsResult, logSearch.getMessageExcluded(), false);
+		logsResult = findBySearch(logSearch, selectedNfNames, loglevelNames, from, to);
+
+		// String dataDetailExcluded = logSearch.getDataDetailExcluded();
+		// logsResult = extractData(logsResult, dataDetailExcluded, true);
+		// logsResult = extractData(logsResult, logSearch.getMessageExcluded(), false);
 		logSearch.setLogLevels(N5gLogLevelUtil.getLogLevels(loglevelNames));
 		logSearch.setNfTypes(NfTypeUtil.getNfTypes(selectedNfNames));
 		logSearch.setFromNfTypesList(NfTypeUtil.getNfTypes(from));
 		logSearch.setToNfTypesList(NfTypeUtil.getNfTypes(to));
-		
+
 		return logsResult;
 	}
 

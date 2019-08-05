@@ -1,41 +1,32 @@
 package i2i.n5g.logs.repositories;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import i2i.n5g.logs.domain.Log;
 import i2i.n5g.logs.entity.LogSearch;
+import i2i.n5g.logs.utils.StringUtils;
 
 @Component
 public class LogRepository {
 	@Autowired
-	private NamedParameterJdbcTemplate jdbcTemplate;
+	@Qualifier("jdbcTest")
+	private JdbcTemplate jdbcTest;
+
+	@Autowired
+	@Qualifier("jdbcDev")
+	private JdbcTemplate jdbcDev;
+
 	@Autowired
 	private LogRowMapper logRowMapper;
 
 	@Value("${app.sql.excluded}")
 	private String sqlExcluded;
-
-	public List<Log> findByMessageContains(LogSearch logSearch) {
-		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		parameters.addValue("search", logSearch.getSearch());
-		parameters.addValue("limit", logSearch.getLogLimit());
-		return jdbcTemplate.query(
-				"SELECT * FROM app_logs where ( message like %:search% OR data_detail LIKE '%:search%' ) order by id desc  limit :limit",
-				parameters, logRowMapper);
-	}
-
-	public List<Log> findAll(LogSearch logSearch) {
-		MapSqlParameterSource parameters = new MapSqlParameterSource();
-		parameters.addValue("limit", logSearch.getLogLimit());
-		return jdbcTemplate.query("SELECT * FROM app_logs  order by id desc limit :limit", parameters, logRowMapper);
-	}
 
 	public List<Log> findBySearch(LogSearch logSearch, String[] nfTypes, String[] logLevels, String[] from,
 			String[] to) {
@@ -48,10 +39,10 @@ public class LogRepository {
 		sql = sql.replace(":sqlExcluded", sqlExcluded);
 		sql = sql.replace(":search", logSearch.getSearch().trim());
 		sql = sql.replace(":limit", logSearch.getLogLimit() + "");
-		sql = sql.replace(":nfTypes", formatINSql(nfTypes));
-		sql = sql.replace(":fromList", formatINSql(from));
-		sql = sql.replace(":toList", formatINSql(to));
-		sql = sql.replace(":logLevels", formatINSql(logLevels));
+		sql = sql.replace(":nfTypes", StringUtils.formatINSql(nfTypes));
+		sql = sql.replace(":fromList", StringUtils.formatINSql(from));
+		sql = sql.replace(":toList", StringUtils.formatINSql(to));
+		sql = sql.replace(":logLevels", StringUtils.formatINSql(logLevels));
 		sql = sql.replace(":status", logSearch.getHttpStatus().trim());
 		sql = sql.replace(":supi", logSearch.getSupi().trim());
 		sql = sql.replace(":snssai", logSearch.getSnssai().trim());
@@ -71,22 +62,7 @@ public class LogRepository {
 		sql = sql.replace("AND status IN ()", " ");
 
 		logSearch.setSql(sql);
-		return jdbcTemplate.query(sql, logRowMapper);
-	}
-
-	private String formatINSql(String[] parameters) {
-		String result = String.join(",", getSingleQuote(parameters)).trim();
-		return result;
-	}
-
-	private ArrayList<String> getSingleQuote(String[] logLevels) {
-		ArrayList<String> s2 = new ArrayList<String>();
-		if (logLevels != null) {
-			for (int i = 0; i < logLevels.length; i++) {
-				s2.add("'" + logLevels[i] + "'");
-			}
-		}
-		return s2;
+		return jdbcDev.query(sql, logRowMapper);
 	}
 
 }
