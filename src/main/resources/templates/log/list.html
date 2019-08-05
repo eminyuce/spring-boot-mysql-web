@@ -83,7 +83,16 @@
 						<label th:for="'to'+${toItem.name}" th:text="${toItem.name}"></label>
 					</th:block>
 				</div>
+				
 			</div>
+			<div class="row">
+			<div class="col-md-12">
+					<input class="form-control" placeholder="sqlExcluded"
+						th:value="${LogSearch.sqlExcluded}" name="sqlExcluded" id="sqlExcluded"
+						type="text">
+				</div>
+			</div>	
+				
 			<div class="row">
 				<div class="col-md-2">
 					<input class="form-control" placeholder="Search"
@@ -120,8 +129,13 @@
 						type="text">
 				</div>
 				<div class="col-md-1">
+					<input class="form-control" placeholder="DataSource"
+						th:value="${LogSearch.dataSource}" name="dataSource" id="dataSource"
+						type="text">
+				</div>
+				<div class="col-md-1">
 					<input type="submit" name="SearchBtn" value="Search"
-						class="btn btn-black btn-block wrn-btn">
+						class="btn btn-danger btn-block wrn-btn">
 				</div>
 				<div  th:unless="${#strings.isEmpty(LogSearch.searchBtn)}" class="col-md-1">
 					<a href="/log/list"	class="btn btn-default btn-block wrn-btn">Clear</a>

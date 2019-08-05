@@ -2,6 +2,7 @@ package i2i.n5g.logs.repositories;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import i2i.n5g.logs.domain.Log;
 import i2i.n5g.logs.entity.LogSearch;
-import i2i.n5g.logs.utils.StringUtils;
+import i2i.n5g.logs.utils.N5gStringUtils;
 
 @Component
 public class LogRepository {
@@ -36,13 +37,17 @@ public class LogRepository {
 				+ " AND level IN (:logLevels) AND status like '%:status%' AND supi like '%:supi%'  "
 				+ " AND dest_ip_port like '%:dest_ip_port%'   AND source_ip_port like '%:source_ip_port%'   AND snssai like '%:snssai%' order by log_time desc limit :limit ";
 
-		sql = sql.replace(":sqlExcluded", sqlExcluded);
+		if (StringUtils.isAllEmpty(logSearch.getSqlExcluded())) {
+			logSearch.setSqlExcluded(sqlExcluded);
+		}
+
+		sql = sql.replace(":sqlExcluded", logSearch.getSqlExcluded());
 		sql = sql.replace(":search", logSearch.getSearch().trim());
 		sql = sql.replace(":limit", logSearch.getLogLimit() + "");
-		sql = sql.replace(":nfTypes", StringUtils.formatINSql(nfTypes));
-		sql = sql.replace(":fromList", StringUtils.formatINSql(from));
-		sql = sql.replace(":toList", StringUtils.formatINSql(to));
-		sql = sql.replace(":logLevels", StringUtils.formatINSql(logLevels));
+		sql = sql.replace(":nfTypes", N5gStringUtils.formatINSql(nfTypes));
+		sql = sql.replace(":fromList", N5gStringUtils.formatINSql(from));
+		sql = sql.replace(":toList", N5gStringUtils.formatINSql(to));
+		sql = sql.replace(":logLevels", N5gStringUtils.formatINSql(logLevels));
 		sql = sql.replace(":status", logSearch.getHttpStatus().trim());
 		sql = sql.replace(":supi", logSearch.getSupi().trim());
 		sql = sql.replace(":snssai", logSearch.getSnssai().trim());
@@ -62,7 +67,11 @@ public class LogRepository {
 		sql = sql.replace("AND status IN ()", " ");
 
 		logSearch.setSql(sql);
-		return jdbcDev.query(sql, logRowMapper);
+		JdbcTemplate jdbcPrimary = jdbcDev;
+		if (logSearch.getDataSource().equalsIgnoreCase("test")) {
+			jdbcPrimary = jdbcTest;
+		}
+		return jdbcPrimary.query(sql, logRowMapper);
 	}
 
 }

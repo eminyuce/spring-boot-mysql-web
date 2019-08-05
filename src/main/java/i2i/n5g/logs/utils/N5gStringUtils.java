@@ -2,7 +2,7 @@ package i2i.n5g.logs.utils;
 
 import java.util.ArrayList;
 
-public class StringUtils {
+public class N5gStringUtils {
 	public static String formatINSql(String[] parameters) {
 		String result = String.join(",", getSingleQuote(parameters)).trim();
 		return result;
