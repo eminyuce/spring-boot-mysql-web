@@ -138,7 +138,7 @@
 						class="btn btn-danger btn-block wrn-btn">
 				</div>
 				<div  th:unless="${#strings.isEmpty(LogSearch.searchBtn)}" class="col-md-1">
-					<a th:href="' /log/list?sqlExcluded=' +${LogSearch.sqlExcluded}" 	class="btn btn-default btn-block wrn-btn">Clear</a>
+					<a th:href="' /log/list?sqlExcluded=' +${LogSearch.sqlExcluded}+'&dataSource='+${LogSearch.dataSource}" 	class="btn btn-default btn-block wrn-btn">Clear</a>
 				</div>
 			</div>
 
