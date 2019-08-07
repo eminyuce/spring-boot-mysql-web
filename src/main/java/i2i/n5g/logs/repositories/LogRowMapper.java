@@ -2,14 +2,11 @@ package i2i.n5g.logs.repositories;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.util.Date;
 
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import i2i.n5g.logs.domain.Log;
-import i2i.n5g.logs.utils.DateTimeUtils;
 
 @Component
 public class LogRowMapper implements RowMapper<Log> {
@@ -30,12 +27,7 @@ public class LogRowMapper implements RowMapper<Log> {
 		emp.setIndex_par3(rs.getString("index_par3"));
 		emp.setInt_instance_id(rs.getString("int_instance_id"));
 		emp.setLevel(rs.getString("level"));
-		try {
-			emp.setLog_time(DateTimeUtils.getDateTimeFormatted(rs.getString("log_time")));
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		emp.setLog_time(rs.getString("log_time"));
 		emp.setLogger(rs.getString("logger"));
 		emp.setMarker(rs.getString("marker"));
 		emp.setMessage(rs.getString("message"));

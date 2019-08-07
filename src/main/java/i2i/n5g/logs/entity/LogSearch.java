@@ -22,7 +22,7 @@ public class LogSearch {
 
 	public LogSearch() {
 		search = "";
-		logLimit = 1000;
+		logLimit = 500;
 		httpStatus = "";
 		supi = "";
 		snssai = "";

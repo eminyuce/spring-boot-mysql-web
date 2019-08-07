@@ -47,9 +47,9 @@ public class LogRepositoryTest {
 
 	@Test
 	public void parseDate() throws ParseException, JSONException, IllegalAccessException, java.text.ParseException {
-		String strDate = "20190802063652";
+		String strDate = "2019-08-06 17:13:28";
 		System.out.println(DateTimeUtils.getDateTimeFormatted(strDate));
-		
+
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date dateStr = formatter.parse(strDate);
 		String formattedDate = formatter.format(dateStr);
@@ -59,14 +59,14 @@ public class LogRepositoryTest {
 		formatter = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 		formattedDate = formatter.format(date1);
 		System.out.println("dd-MMM-yyyy date is ==>" + formattedDate);
-		
+
 		DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		LocalDateTime dateTime = LocalDateTime.parse(formatter.format(date1), formatter2);
-		LocalDate toDateTime =LocalDate.now();
-		long minutes = dateTime.until( toDateTime, ChronoUnit.MINUTES);
-		
+		LocalDate toDateTime = LocalDate.now();
+		long minutes = dateTime.until(toDateTime, ChronoUnit.MINUTES);
+
 		System.out.println("minutes ==>" + minutes);
-		
+
 	}
 
 	@Test
