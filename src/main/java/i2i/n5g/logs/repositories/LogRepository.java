@@ -65,6 +65,7 @@ public class LogRepository {
 		sql = sql.replace("AND nf_type IN ()", " ");
 		sql = sql.replace("AND level IN ()", " ");
 		sql = sql.replace("AND status IN ()", " ");
+		// java -jar i2i.n5g.logs-0.0.1-SNAPSHOT.jar --server.port=8181 &
 
 		logSearch.setSql(sql);
 		JdbcTemplate jdbcPrimary = jdbcDev;
