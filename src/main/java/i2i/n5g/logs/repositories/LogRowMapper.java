@@ -47,7 +47,7 @@ public class LogRowMapper implements RowMapper<Log> {
 		emp.setStatus_description(rs.getString("status_description"));
 		emp.setSub_status(rs.getString("sub_status"));
 		emp.setSupi(rs.getString("supi"));
-
+		emp.setHttp_message(rs.getString("http_message"));
 		return emp;
 	}
 

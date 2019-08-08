@@ -158,7 +158,7 @@
 								<th scope="col" style="width: 3%">SUPI-PEI</th>
 								<th scope="col" style="width: 3%">NF INFO</th>
 								<th scope="col" style="width: 3%">FROM-TO</th>
-								<th scope="col" style="width: 3%">IP/Port - Logger</th>
+								<th scope="col" style="width: 3%">HTTP</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -212,6 +212,17 @@
 									 <span
 										th:unless="${#strings.isEmpty(log.logger)}"> Logger:<b class="logData" th:text="${log.logger}"></b>
 									</span>  
+									<br>
+									 <span
+										th:unless="${#strings.isEmpty(log.source_ip_port)}">
+											SOURCE IP PORT:<b class="logData"
+											th:text="${log.source_ip_port}"></b>
+									</span><br> 
+									<span
+										th:unless="${#strings.isEmpty(log.dest_ip_port)}"> DEST
+											IP PORT:<b class="logData" th:text="${log.dest_ip_port}"></b>
+									</span> <br>
+									
 									</td>
 									<td>
 									<span
@@ -219,13 +230,10 @@
 											class="logData" th:text="${log.status}"></b></span>
 											<br> 
 											
-									<span
-										th:unless="${#strings.isEmpty(log.dest_ip_port)}"> DEST
-											IP PORT:<b class="logData" th:text="${log.dest_ip_port}"></b>
-									</span> <br> <span
-										th:unless="${#strings.isEmpty(log.source_ip_port)}">
-											SOURCE IP PORT:<b class="logData"
-											th:text="${log.source_ip_port}"></b>
+									 <span
+										th:unless="${#strings.isEmpty(log.http_message)}">
+											Http_Message:<b class="logData"
+											th:text="${log.http_message}"></b>
 									</span><br> 
 									<span
 										th:unless="${#strings.isEmpty(log.status_description)}"><b

@@ -1,10 +1,5 @@
 package i2i.n5g.logs.domain;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "app_logs")
 @JsonIgnoreProperties
 public class Log {
+	private String http_message;
 	private String spec_info;
 
 	private String exception;
@@ -357,9 +353,9 @@ public class Log {
 			result = "";
 		} else {
 			long minutes = 10;
-			result=minutes+"";
+			result = minutes + "";
 		}
-		
+
 		return result;
 	}
 
@@ -403,6 +399,14 @@ public class Log {
 	@Override
 	public boolean equals(Object obj) {
 		return this.id == ((Log) obj).id;
+	}
+
+	public String getHttp_message() {
+		return http_message;
+	}
+
+	public void setHttp_message(String http_message) {
+		this.http_message = http_message;
 	}
 
 }
