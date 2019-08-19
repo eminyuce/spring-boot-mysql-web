@@ -75,4 +75,10 @@ public class LogRepository {
 		return jdbcPrimary.query(sql, logRowMapper);
 	}
 
+	public Log findById(int id) {
+		String sql = "SELECT * FROM app_logs WHERE  id="+id;
+		JdbcTemplate jdbcPrimary = jdbcDev;
+		return jdbcPrimary.queryForObject(sql, logRowMapper);
+	}
+
 }

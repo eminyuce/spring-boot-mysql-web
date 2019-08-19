@@ -40,7 +40,7 @@ public class LogServiceImpl implements LogService {
 
 	@Override
 	public Log getById(int id) {
-		return null;// logRepository.findById(id).orElse(null);
+	    return  logRepository.findById(id);
 	}
 
 	@Override
