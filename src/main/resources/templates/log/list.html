@@ -20,11 +20,11 @@
 }
 
 .table-condensed {
-	font-size: 14px;
+	font-size: 12px;
 }
 
 .logData {
-	font-size: 14px;
+	font-size: 12px;
 	color: black;
 }
 
@@ -246,18 +246,18 @@
 									th:classappend="${log.getCssClass()}">
 									<td colspan="2" class=" textCol"><b>DATA_DETAIL:</b> 	</br>
 										
-										<textarea th:text="${log.data_detail}" rows="1" cols="50" style="margin: 0px; width: 100%; max-width:1000px"></textarea>
+										<textarea th:text="${log.data_detail}" rows="3" cols="50" style="margin: 0px; width: 100%; max-width:1000px"></textarea>
 
 
 										</td>
 								 
 									<td colspan="2" class=" textCol"><b>MESSAGE:</b>	</br>  
-											<textarea th:text="${log.message}" rows="1" cols="50" style="margin: 0px; width: 100%; max-width:1000px"></textarea>
+											<textarea th:text="${log.message}" rows="3" cols="50" style="margin: 0px; width: 100%; max-width:1000px"></textarea>
 									</td>
 							 
 									<td colspan="2" class=" textCol"><b>JAVA EXCEPTION:</b>  
 									</br>
-										<textarea th:text="${log.exception}" rows="1" cols="50" style="margin: 0px; width: 100%; max-width:1000px"></textarea>
+										<textarea th:text="${log.exception}" rows="3" cols="50" style="margin: 0px; width: 100%; max-width:1000px"></textarea>
 									</td>
 								</tr>
 							</th:block>
