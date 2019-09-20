@@ -174,7 +174,7 @@
 									<span
 										th:unless="${#strings.isEmpty(log.session_id)}"> SessionId:<b class="logData" th:text="${log.session_id}"></b>
 									</span>
-									<div class='btn btn-default'  th:attr="data-log_btn_message=${log.id}">DATA</div>
+<!-- 									<div class='btn btn-default'  th:attr="data-log_btn_message=${log.id}">DATA</div> -->
 											</td>
 									 
 									<td><span th:unless="${#strings.isEmpty(log.supi)}">SUPI:<b
@@ -245,13 +245,13 @@
 								<tr 
 									th:classappend="${log.getCssClass()}">
 									<td colspan="2" class=" textCol"><b>DATA_DETAIL:</b> 	 
-										<textarea th:attr="data-log_data_detail=${log.id}"  rows="1" cols="50" style="margin: 0px; width: 100%; max-width:1000px"></textarea>
+										<textarea th:attr="data-log_data_detail=${log.id}"  th:text="${log.data_detail}"  rows="1" cols="50" style="margin: 0px; width: 100%; max-width:1000px"></textarea>
 										</td>
 									<td colspan="2" class=" textCol"><b>MESSAGE:</b> 
-											<textarea th:attr="data-log_message=${log.id}"  rows="1" cols="50" style="margin: 0px; width: 100%; max-width:1000px"></textarea>
+											<textarea th:attr="data-log_message=${log.id}"  th:text="${log.message}"  rows="1" cols="50" style="margin: 0px; width: 100%; max-width:1000px"></textarea>
 									</td>
 									<td colspan="2" class=" textCol"><b>JAVA EXCEPTION:</b>  
-										<textarea th:attr="data-log_exception=${log.id}"   rows="1" cols="50" style="margin: 0px; width: 100%; max-width:1000px"></textarea>
+										<textarea th:attr="data-log_exception=${log.id}"  th:text="${log.exception}"   rows="1" cols="50" style="margin: 0px; width: 100%; max-width:1000px"></textarea>
 									</td>
 								</tr>
 							</th:block>

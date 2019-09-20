@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import i2i.n5g.logs.services.FileService;
+
 @Configuration
 public class DataSourceConfig {
 
@@ -37,5 +39,12 @@ public class DataSourceConfig {
 	@Autowired
 	public JdbcTemplate devJdbcTemplate(@Qualifier("dsDev") DataSource dsMaster) {
 		return new JdbcTemplate(dsMaster);
+	}
+	@Bean(name = "fileService")
+	@Autowired
+	public  FileService fileService() {
+		FileService fileService = new FileService();
+		fileService.parseFile();
+		return fileService;
 	}
 }

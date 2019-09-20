@@ -2,17 +2,26 @@ package i2i.n5g.logs.repositories;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import i2i.n5g.logs.domain.Log;
+import i2i.n5g.logs.services.FileService;
 
 @Component
 public class LogRowMapper implements RowMapper<Log> {
+	
+	@Autowired
+	@Qualifier("fileService")
+	FileService fileService;
 
 	@Override
 	public Log mapRow(ResultSet rs, int rowNum) throws SQLException {
+		Map<String, String> obstructionMap =	fileService.getObstructionMap();
 		Log emp = new Log();
 		emp.setId(rs.getInt("id"));
 		emp.setFrom(rs.getString("from"));
@@ -48,6 +57,7 @@ public class LogRowMapper implements RowMapper<Log> {
 		emp.setSub_status(rs.getString("sub_status"));
 		emp.setSupi(rs.getString("supi"));
 		emp.setHttp_message(rs.getString("http_message"));
+	
 		return emp;
 	}
 
