@@ -56,6 +56,7 @@ public class N5GLogController {
 		logsResult = logService.listAllByLogSearch(logSearch, selectedNfNames, loglevelNames, fromList, toList);
 		model.addAttribute("LogSearch", logSearch);
 		model.addAttribute("logs", logsResult);
+		// TEST MERGE
 
 		Map<String, Long> counting = logsResult.stream().sorted(Comparator.comparing(p -> p.getLevel()))
 				.collect(Collectors.groupingBy(Log::getLevel, Collectors.counting()));
