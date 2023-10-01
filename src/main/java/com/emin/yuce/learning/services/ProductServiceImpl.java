@@ -23,8 +23,6 @@ public class ProductServiceImpl implements ProductService {
     public ProductServiceImpl(ProductRepository productRepository, ProductFormToProduct productFormToProduct) {
         this.productRepository = productRepository;
         this.productFormToProduct = productFormToProduct;
-
-
     }
 
 
@@ -49,7 +47,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void delete(int id) {
         productRepository.deleteById(id);
-
     }
 
     @Override
