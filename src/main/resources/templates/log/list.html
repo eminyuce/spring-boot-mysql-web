@@ -1,269 +1,279 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Log Manager</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Log Manager</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
-<link
-	href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
-	th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}"
-	rel="stylesheet" media="screen" />
+    <link
+            href="http://cdn.jsdelivr.net/webjars/bootstrap/3.3.4/css/bootstrap.min.css"
+            th:href="@{/webjars/bootstrap/3.3.5/css/bootstrap.min.css}"
+            rel="stylesheet" media="screen"/>
 
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<script type="text/javascript" src="../js/main.js"></script>
-<style type="text/css">
-.container-full {
-	margin: 0 auto;
-	width: 100%;
-}
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/main.js"></script>
+    <style type="text/css">
+        .container-full {
+            margin: 0 auto;
+            width: 100%;
+        }
 
-.table-condensed {
-	font-size: 14px;
-}
+        .table-condensed {
+            font-size: 14px;
+        }
 
-.logData {
-	font-size: 14px;
-	color: black;
-}
+        .logData {
+            font-size: 14px;
+            color: black;
+        }
 
-.error {
-	background-color: red;
-}
+        .error {
+            background-color: red;
+        }
 
-.table .thead-light th {
-	color: #401500;
-	background-color: #FFDDCC;
-	border-color: #792700;
-}
-</style>
+        .table .thead-light th {
+            color: #401500;
+            background-color: #FFDDCC;
+            border-color: #792700;
+        }
+    </style>
 </head>
 <body>
-	<b style="font-size: 10px;" th:text="${LogSearch.sql}"></b>
-	<div class="container-fluid">
+<b style="font-size: 10px;" th:text="${LogSearch.sql}"></b>
+<div class="container-fluid">
 
-		<form th:object="${LogSearch}" th:action="@{/log/list}" method="get">
-			<div class="row">
-				<div class="col-sm-5">
-					<b style="color: red">Filter By LOG_LEVEL:</b>
-					<th:block th:each="loglevel : ${LogSearch.LogLevels}">
-						<input type="checkbox" th:checked="${loglevel.selected}"
-							th:id="${loglevel.name}" name="loglevelNames"
-							th:value="${loglevel.name}" />
-						<label th:for="${loglevel.name}" th:text="${loglevel.name}"></label>
-					</th:block>
-				</div>
-				<div class="col-sm-5">
-					<b style="color: red">Filter By FROM:</b>
-					<th:block th:each="fromItem : ${LogSearch.fromNfTypesList}">
-						<input type="checkbox" th:checked="${fromItem.selected}"
-							th:id="'from'+${fromItem.name}" name="fromList"
-							th:value="${fromItem.name}" />
-						<label th:for="'from'+${fromItem.name}" th:text="${fromItem.name}"></label>
-					</th:block>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-5">
-					<b style="color: red">Filter By NF_TYPE:</b>
-					<th:block th:each="nfType : ${LogSearch.NfTypes}">
-						<input type="checkbox" th:checked="${nfType.selected}"
-							th:id="'nfType'+${nfType.name}" name="selectedNfNames"
-							th:value="${nfType.name}" />
-						<label th:for="'nfType'+${nfType.name}" th:text="${nfType.name}"></label>
-					</th:block>
-				</div>
-				<div class="col-sm-5">
-					<b style="color: red">Filter By TO:</b>
-					<th:block th:each="toItem : ${LogSearch.toNfTypesList}">
-						<input type="checkbox" th:checked="${toItem.selected}"
-							th:id="'to'+${toItem.name}" name="toList"
-							th:value="${toItem.name}" />
-						<label th:for="'to'+${toItem.name}" th:text="${toItem.name}"></label>
-					</th:block>
-				</div>
-				
-			</div>
-			<div class="row">
-			<div class="col-md-12">
-					<input class="form-control" placeholder="sqlExcluded"
-						th:value="${LogSearch.sqlExcluded}" name="sqlExcluded" id="sqlExcluded"
-						type="text">
-				</div>
-			</div>	
-				
-			<div class="row">
-				<div class="col-md-2">
-					<input class="form-control" placeholder="Search"
-						th:value="${LogSearch.search}" name="search" id="search"
-						type="text">
-				</div>
-				<div class="col-md-2">
-					<input class="form-control" placeholder="supi"
-						th:value="${LogSearch.supi}" name="supi" id="supi" type="text">
-				</div>
-				<div class="col-md-1">
-					<input class="form-control" placeholder="snssai"
-						th:value="${LogSearch.snssai}" name="snssai" id="snssai"
-						type="text">
-				</div>
-				<div class="col-md-1">
-					<input class="form-control" placeholder="Http Status"
-						th:value="${LogSearch.HttpStatus}" name="httpStatus"
-						id="HttpStatus" type="text">
-				</div>
-				<div class="col-md-1">
-					<input class="form-control" placeholder="DestIpPort"
-						th:value="${LogSearch.destinationIp}" name="destinationIp" id="destinationIp"
-						type="text">
-				</div>
-				<div class="col-md-1">
-					<input class="form-control" placeholder="SourceIpPort"
-						th:value="${LogSearch.sourceIp}" name="sourceIp" id="sourceIp"
-						type="text">
-				</div>
-				<div class="col-md-1">
-					<input class="form-control" placeholder="logLimit"
-						th:value="${LogSearch.logLimit}" name="logLimit" id="logLimit"
-						type="text">
-				</div>
-				<div class="col-md-1">
-					<input class="form-control" placeholder="DataSource"
-						th:value="${LogSearch.dataSource}" name="dataSource" id="dataSource"
-						type="text">
-				</div>
-				<div class="col-md-1">
-					<input type="submit" name="SearchBtn" value="Search"
-						class="btn btn-danger btn-block wrn-btn">
-				</div>
-				<div  th:unless="${#strings.isEmpty(LogSearch.searchBtn)}" class="col-md-1">
-					<a th:href="' /log/list?sqlExcluded=' +${LogSearch.sqlExcluded}+'&dataSource='+${LogSearch.dataSource}" 	class="btn btn-default btn-block wrn-btn">Clear</a>
-				</div>
-			</div>
+    <form th:object="${LogSearch}" th:action="@{/log/list}" method="get">
+        <div class="row">
+            <div class="col-sm-5">
+                <b style="color: red">Filter By LOG_LEVEL:</b>
+                <th:block th:each="loglevel : ${LogSearch.LogLevels}">
+                    <input type="checkbox" th:checked="${loglevel.selected}"
+                           th:id="${loglevel.name}" name="loglevelNames"
+                           th:value="${loglevel.name}"/>
+                    <label th:for="${loglevel.name}" th:text="${loglevel.name}"></label>
+                </th:block>
+            </div>
+            <div class="col-sm-5">
+                <b style="color: red">Filter By FROM:</b>
+                <th:block th:each="fromItem : ${LogSearch.fromNfTypesList}">
+                    <input type="checkbox" th:checked="${fromItem.selected}"
+                           th:id="'from'+${fromItem.name}" name="fromList"
+                           th:value="${fromItem.name}"/>
+                    <label th:for="'from'+${fromItem.name}" th:text="${fromItem.name}"></label>
+                </th:block>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-5">
+                <b style="color: red">Filter By NF_TYPE:</b>
+                <th:block th:each="nfType : ${LogSearch.NfTypes}">
+                    <input type="checkbox" th:checked="${nfType.selected}"
+                           th:id="'nfType'+${nfType.name}" name="selectedNfNames"
+                           th:value="${nfType.name}"/>
+                    <label th:for="'nfType'+${nfType.name}" th:text="${nfType.name}"></label>
+                </th:block>
+            </div>
+            <div class="col-sm-5">
+                <b style="color: red">Filter By TO:</b>
+                <th:block th:each="toItem : ${LogSearch.toNfTypesList}">
+                    <input type="checkbox" th:checked="${toItem.selected}"
+                           th:id="'to'+${toItem.name}" name="toList"
+                           th:value="${toItem.name}"/>
+                    <label th:for="'to'+${toItem.name}" th:text="${toItem.name}"></label>
+                </th:block>
+            </div>
 
-			<b th:text="${logs.size()}"></b> Records Found &nbsp; <span
-				th:each="element : ${logsLevels}"> <b
-				th:text="${element.value}"></b> <span th:text="${element.key}">
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <input class="form-control" placeholder="sqlExcluded"
+                       th:value="${LogSearch.sqlExcluded}" name="sqlExcluded" id="sqlExcluded"
+                       type="text">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                <input class="form-control" placeholder="Search"
+                       th:value="${LogSearch.search}" name="search" id="search"
+                       type="text">
+            </div>
+            <div class="col-md-2">
+                <input class="form-control" placeholder="supi"
+                       th:value="${LogSearch.supi}" name="supi" id="supi" type="text">
+            </div>
+            <div class="col-md-1">
+                <input class="form-control" placeholder="snssai"
+                       th:value="${LogSearch.snssai}" name="snssai" id="snssai"
+                       type="text">
+            </div>
+            <div class="col-md-1">
+                <input class="form-control" placeholder="Http Status"
+                       th:value="${LogSearch.HttpStatus}" name="httpStatus"
+                       id="HttpStatus" type="text">
+            </div>
+            <div class="col-md-1">
+                <input class="form-control" placeholder="DestIpPort"
+                       th:value="${LogSearch.destinationIp}" name="destinationIp" id="destinationIp"
+                       type="text">
+            </div>
+            <div class="col-md-1">
+                <input class="form-control" placeholder="SourceIpPort"
+                       th:value="${LogSearch.sourceIp}" name="sourceIp" id="sourceIp"
+                       type="text">
+            </div>
+            <div class="col-md-1">
+                <input class="form-control" placeholder="logLimit"
+                       th:value="${LogSearch.logLimit}" name="logLimit" id="logLimit"
+                       type="text">
+            </div>
+            <div class="col-md-1">
+                <input class="form-control" placeholder="DataSource"
+                       th:value="${LogSearch.dataSource}" name="dataSource" id="dataSource"
+                       type="text">
+            </div>
+            <div class="col-md-1">
+                <input type="submit" name="SearchBtn" value="Search"
+                       class="btn btn-danger btn-block wrn-btn">
+            </div>
+            <div th:unless="${#strings.isEmpty(LogSearch.searchBtn)}" class="col-md-1">
+                <a th:href="' /log/list?sqlExcluded=' +${LogSearch.sqlExcluded}+'&dataSource='+${LogSearch.dataSource}"
+                   class="btn btn-default btn-block wrn-btn">Clear</a>
+            </div>
+        </div>
+
+        <b th:text="${logs.size()}"></b> Records Found &nbsp; <span
+            th:each="element : ${logsLevels}"> <b
+            th:text="${element.value}"></b> <span th:text="${element.key}">
 			</span> Logs Found&nbsp;
 			</span> <b th:text="${logsJavaException.size()}"></b> Java Exceptions
-			Found&nbsp;
-			<div th:fragment="table (logs)">
-				<div style="width: 100%;">
-					<table id="logs"
-						class="table table-striped table-bordered table-hover table-condensed">
-						<thead class="thead-light">
-							<tr>
-								<th scope="col" style="width: 3%">Id-LogTime</th>
-								<th scope="col" style="width: 3%">SUPI-PEI</th>
-								<th scope="col" style="width: 3%">NF INFO</th>
-								<th scope="col" style="width: 3%">FROM-TO</th>
-								<th scope="col" style="width: 3%">HTTP</th>
-							</tr>
-						</thead>
-						<tbody>
-							<th:block th:each="log : ${logs}">
-								<tr>
-									<td><b style="color: red; font-size:large" th:text="'ID:' +${log.id}"></b><br>
-										<b style="color: black;" th:text="${log.log_time}"></b>   
-											<br>
-									 <span
-										th:unless="${#strings.isEmpty(log.level)}"> Level:<b class="logData" th:text="${log.level}"></b>
+        Found&nbsp;
+        <div th:fragment="table (logs)">
+            <div style="width: 100%;">
+                <table id="logs"
+                       class="table table-striped table-bordered table-hover table-condensed">
+                    <thead class="thead-light">
+                    <tr>
+                        <th scope="col" style="width: 3%">Id-LogTime</th>
+                        <th scope="col" style="width: 3%">SUPI-PEI</th>
+                        <th scope="col" style="width: 3%">NF INFO</th>
+                        <th scope="col" style="width: 3%">FROM-TO</th>
+                        <th scope="col" style="width: 3%">HTTP</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="log : ${logs}">
+                        <tr>
+                            <td><b style="color: red; font-size:large" th:text="'ID:' +${log.id}"></b><br>
+                                <b style="color: black;" th:text="${log.log_time}"></b>
+                                <br>
+                                <span
+                                        th:unless="${#strings.isEmpty(log.level)}"> Level:<b class="logData"
+                                                                                             th:text="${log.level}"></b>
 									</span>
-									<br> 
-									<span
-										th:unless="${#strings.isEmpty(log.session_id)}"> SessionId:<b class="logData" th:text="${log.session_id}"></b>
+                                <br>
+                                <span
+                                        th:unless="${#strings.isEmpty(log.session_id)}"> SessionId:<b class="logData"
+                                                                                                      th:text="${log.session_id}"></b>
 									</span>
-<!-- 									<div class='btn btn-default'  th:attr="data-log_btn_message=${log.id}">DATA</div> -->
-											</td>
-									 
-									<td><span th:unless="${#strings.isEmpty(log.supi)}">SUPI:<b
-											class="logData" th:text="${log.supi}"></b></span> <br> <span
-										th:unless="${#strings.isEmpty(log.pei)}">PEI:<b
-											class="logData" th:text="${log.pei}"></b></span> <br> <span
-										th:unless="${#strings.isEmpty(log.snssai)}"> SNSSAI:<b
-											class="logData" th:text="${log.snssai}"></b>
+                                <!-- 									<div class='btn btn-default'  th:attr="data-log_btn_message=${log.id}">DATA</div> -->
+                            </td>
+
+                            <td><span th:unless="${#strings.isEmpty(log.supi)}">SUPI:<b
+                                    class="logData" th:text="${log.supi}"></b></span> <br> <span
+                                    th:unless="${#strings.isEmpty(log.pei)}">PEI:<b
+                                    class="logData" th:text="${log.pei}"></b></span> <br> <span
+                                    th:unless="${#strings.isEmpty(log.snssai)}"> SNSSAI:<b
+                                    class="logData" th:text="${log.snssai}"></b>
 									</span><br> <span
-										th:unless="${#strings.isEmpty(log.gpsi)}"> GPSI:<b
-											class="logData" th:text="${log.gpsi}"></b>
+                                    th:unless="${#strings.isEmpty(log.gpsi)}"> GPSI:<b
+                                    class="logData" th:text="${log.gpsi}"></b>
 									</span><br>
-									<span
-										th:unless="${#strings.isEmpty(log.spec_info)}"> Spec Info:<b class="logData" th:text="${log.spec_info}"></b>
+                                <span
+                                        th:unless="${#strings.isEmpty(log.spec_info)}"> Spec Info:<b class="logData"
+                                                                                                     th:text="${log.spec_info}"></b>
 									</span></td>
-									<td><span th:unless="${#strings.isEmpty(log.nf_type)}">
+                            <td><span th:unless="${#strings.isEmpty(log.nf_type)}">
 											NFYPE:<b class="logData" th:text="${log.nf_type}"></b>
 									</span><br> <span th:unless="${#strings.isEmpty(log.nf_name)}">
 											NFNAME:<b class="logData" th:text="${log.nf_name}"></b>
 									</span><br>
-									 <span
-										th:unless="${#strings.isEmpty(log.module_name)}"> ModuleName:<b class="logData" th:text="${log.module_name}"></b>
-									</span><br> 
-									<span
-										th:unless="${#strings.isEmpty(log.state)}"> State:<b class="logData" th:text="${log.state}"></b>
+                                <span
+                                        th:unless="${#strings.isEmpty(log.module_name)}"> ModuleName:<b class="logData"
+                                                                                                        th:text="${log.module_name}"></b>
+									</span><br>
+                                <span
+                                        th:unless="${#strings.isEmpty(log.state)}"> State:<b class="logData"
+                                                                                             th:text="${log.state}"></b>
 									</span>
-									</td>
-									<td class="textCol"><span
-										th:unless="${#strings.isEmpty(log.from)}"> FROM:<b
-											class="logData" th:text="${log.from}"></b>
+                            </td>
+                            <td class="textCol"><span
+                                    th:unless="${#strings.isEmpty(log.from)}"> FROM:<b
+                                    class="logData" th:text="${log.from}"></b>
 									</span> - <span th:unless="${#strings.isEmpty(log.to)}"> TO:<b
-											class="logData" th:text="${log.to}"></b>
-									</span>  
-									<br> 
-									 <span
-										th:unless="${#strings.isEmpty(log.logger)}"> Logger:<b class="logData" th:text="${log.logger}"></b>
-									</span>  
-									<br>
-									 <span
-										th:unless="${#strings.isEmpty(log.source_ip_port)}">
+                                    class="logData" th:text="${log.to}"></b>
+									</span>
+                                <br>
+                                <span
+                                        th:unless="${#strings.isEmpty(log.logger)}"> Logger:<b class="logData"
+                                                                                               th:text="${log.logger}"></b>
+									</span>
+                                <br>
+                                <span
+                                        th:unless="${#strings.isEmpty(log.source_ip_port)}">
 											SOURCE IP PORT:<b class="logData"
-											th:text="${log.source_ip_port}"></b>
-									</span><br> 
-									<span
-										th:unless="${#strings.isEmpty(log.dest_ip_port)}"> DEST
+                                                              th:text="${log.source_ip_port}"></b>
+									</span><br>
+                                <span
+                                        th:unless="${#strings.isEmpty(log.dest_ip_port)}"> DEST
 											IP PORT:<b class="logData" th:text="${log.dest_ip_port}"></b>
 									</span> <br>
-									
-									</td>
-									<td>
+
+                            </td>
+                            <td>
 									<span
-										th:unless="${#strings.isEmpty(log.status)}">HTTP Status:<b
-											class="logData" th:text="${log.status}"></b></span>
-											<br> 
-											
-									 <span
-										th:unless="${#strings.isEmpty(log.http_message)}">
+                                            th:unless="${#strings.isEmpty(log.status)}">HTTP Status:<b
+                                            class="logData" th:text="${log.status}"></b></span>
+                                <br>
+
+                                <span
+                                        th:unless="${#strings.isEmpty(log.http_message)}">
 											Http_Message:<b class="logData"
-											th:text="${log.http_message}"></b>
-									</span><br> 
-									<span
-										th:unless="${#strings.isEmpty(log.status_description)}"><b
-											class="logData" th:text="${log.status_description}"></b></span>
-											
-									
-									</td>
-								</tr>
-								<tr 
-									th:classappend="${log.getCssClass()}">
-									<td colspan="2" class=" textCol"><b>DATA_DETAIL:</b> 	 
-										<textarea th:attr="data-log_data_detail=${log.id}"  th:text="${log.data_detail}"  rows="1" cols="50" style="margin: 0px; width: 100%; max-width:1000px"></textarea>
-										</td>
-									<td colspan="2" class=" textCol"><b>MESSAGE:</b> 
-											<textarea th:attr="data-log_message=${log.id}"  th:text="${log.message}"  rows="1" cols="50" style="margin: 0px; width: 100%; max-width:1000px"></textarea>
-									</td>
-									<td colspan="2" class=" textCol"><b>JAVA EXCEPTION:</b>  
-										<textarea th:attr="data-log_exception=${log.id}"  th:text="${log.exception}"   rows="1" cols="50" style="margin: 0px; width: 100%; max-width:1000px"></textarea>
-									</td>
-								</tr>
-							</th:block>
-						</tbody>
-					</table>
-				</div>
-			</div>
-
-		</form>
+                                                            th:text="${log.http_message}"></b>
+									</span><br>
+                                <span
+                                        th:unless="${#strings.isEmpty(log.status_description)}"><b
+                                        class="logData" th:text="${log.status_description}"></b></span>
 
 
-	</div>
+                            </td>
+                        </tr>
+                        <tr
+                                th:classappend="${log.getCssClass()}">
+                            <td colspan="2" class=" textCol"><b>DATA_DETAIL:</b>
+                                <textarea th:attr="data-log_data_detail=${log.id}" th:text="${log.data_detail}" rows="1"
+                                          cols="50" style="margin: 0px; width: 100%; max-width:1000px"></textarea>
+                            </td>
+                            <td colspan="2" class=" textCol"><b>MESSAGE:</b>
+                                <textarea th:attr="data-log_message=${log.id}" th:text="${log.message}" rows="1"
+                                          cols="50" style="margin: 0px; width: 100%; max-width:1000px"></textarea>
+                            </td>
+                            <td colspan="2" class=" textCol"><b>JAVA EXCEPTION:</b>
+                                <textarea th:attr="data-log_exception=${log.id}" th:text="${log.exception}" rows="1"
+                                          cols="50" style="margin: 0px; width: 100%; max-width:1000px"></textarea>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </form>
+
+
+</div>
 
 </body>
 </html>
