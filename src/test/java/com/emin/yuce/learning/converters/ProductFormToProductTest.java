@@ -10,10 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ProductFormToProductTest {
 
-    private final ProductFormToProduct converter = new ProductFormToProduct();
-//ctx.getEnvironment().getPropertySources()
-//  .addFirst(new MapPropertySource("runtimeProps", Map.of("my.prop", "newValue")));
-
+    private ProductFormToProduct converter = new ProductFormToProduct();
 
     @Test
     public void testConvert() {
