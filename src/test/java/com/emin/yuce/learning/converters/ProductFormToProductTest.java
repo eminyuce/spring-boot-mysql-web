@@ -13,6 +13,11 @@ public class ProductFormToProductTest {
     private ProductFormToProduct converter = new ProductFormToProduct();
 //ctx.getEnvironment().getPropertySources()
 //  .addFirst(new MapPropertySource("runtimeProps", Map.of("my.prop", "newValue")));
+
+
+
+
+
     @Test
     public void testConvert() {
         ProductForm productForm = new ProductForm(1, "desc", new BigDecimal(10.0), "url");
