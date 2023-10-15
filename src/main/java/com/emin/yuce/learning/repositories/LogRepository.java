@@ -14,9 +14,6 @@ import java.util.List;
 
 @Component
 public class LogRepository {
-    @Autowired
-    @Qualifier("jdbcTest")
-    private JdbcTemplate jdbcTest;
 
     @Autowired
     @Qualifier("jdbcDev")
@@ -34,7 +31,7 @@ public class LogRepository {
         String sql = "SELECT * FROM app_logs WHERE  :sqlExcluded AND ( message like '%:search%' OR data_detail LIKE '%:search%' ) "
                 + " AND \"FROM\" IN (:fromList)  AND \"TO\" IN (:toList)  AND nf_type IN (:nfTypes)  "
                 + " AND level IN (:logLevels) AND status like '%:status%' AND supi like '%:supi%'  "
-                + " AND dest_ip_port like '%:dest_ip_port%'   AND source_ip_port like '%:source_ip_port%'   AND snssai like '%:snssai%' order by log_time desc limit :limit ";
+                + " AND dest_ip_port like '%:dest_ip_port%'   AND source_ip_port like '%:source_ip_port%'   AND snssai like '%:snssai%' order by log_time desc  ";
 
         if (StringUtils.isAllEmpty(logSearch.getSqlExcluded())) {
             logSearch.setSqlExcluded(sqlExcluded);
@@ -42,7 +39,7 @@ public class LogRepository {
 
         sql = sql.replace(":sqlExcluded", logSearch.getSqlExcluded());
         sql = sql.replace(":search", logSearch.getSearch().trim());
-        sql = sql.replace(":limit", logSearch.getLogLimit() + "");
+        //  sql = sql.replace(":limit", logSearch.getLogLimit() + "");
         sql = sql.replace(":nfTypes", N5gStringUtils.formatINSql(nfTypes));
         sql = sql.replace(":fromList", N5gStringUtils.formatINSql(from));
         sql = sql.replace(":toList", N5gStringUtils.formatINSql(to));
@@ -68,9 +65,6 @@ public class LogRepository {
 
         logSearch.setSql(sql);
         JdbcTemplate jdbcPrimary = jdbcDev;
-        if (logSearch.getDataSource().equalsIgnoreCase("test")) {
-            jdbcPrimary = jdbcTest;
-        }
         return jdbcPrimary.query(sql, logRowMapper);
     }
 

@@ -14,7 +14,7 @@ import java.util.List;
 @RestController
 public class AjaxController {
 
-    private LogService logService;
+    private final LogService logService;
 
     @Autowired
     public AjaxController(LogService logService) {

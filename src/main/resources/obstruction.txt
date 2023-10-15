@@ -1,5 +1,1 @@
 test test1
-
-    SpringApplication application = new SpringApplication(YourApplication.class);
-        application.addInitializers(new EnvironmentInitializer()); // Register the initializer
-        application.run(args);

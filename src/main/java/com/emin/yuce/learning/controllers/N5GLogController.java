@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Controller("/log")
 public class N5GLogController {
 
-    private LogService logService;
+    private final LogService logService;
 
     @Autowired
     public N5GLogController(LogService logService) {
@@ -44,7 +44,7 @@ public class N5GLogController {
 
         model.addAttribute("logsLevels", counting);
         model.addAttribute("logsJavaException",
-                logsResult.stream().filter(c -> c.getException().length() > 0).collect(Collectors.toList()));
+                logsResult.stream().filter(c -> !c.getException().isEmpty()).collect(Collectors.toList()));
         return "log/list";
     }
 

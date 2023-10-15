@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class LogServiceImpl implements LogService {
 
-    private LogRepository logRepository;
+    private final LogRepository logRepository;
 
     @Autowired
     public LogServiceImpl(LogRepository logRepository) {
@@ -77,7 +77,7 @@ public class LogServiceImpl implements LogService {
     }
 
     private List<Log> extractData(List<Log> logsResult, String searchKey, boolean isDataDetail) {
-        if (searchKey != null && StringUtils.isNotEmpty(searchKey)) {
+        if (StringUtils.isNotEmpty(searchKey)) {
             String[] elements = searchKey.split(";", -1);
             List<Log> logsResultCopy = new ArrayList<>(logsResult);
             for (int i = 0; i < logsResult.size(); i++) {
