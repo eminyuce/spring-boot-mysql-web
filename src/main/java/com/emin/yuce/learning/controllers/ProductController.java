@@ -23,6 +23,16 @@ public class ProductController {
 
     private ProductToProductForm productToProductForm;
 
+    @Autowired
+    public void setProductToProductForm(ProductToProductForm productToProductForm) {
+        this.productToProductForm = productToProductForm;
+    }
+
+    @Autowired
+    public void setProductService(ProductService productService) {
+        this.productService = productService;
+    }
+
 
     @RequestMapping("/product/show/{id}")
     public String getProduct(@PathVariable String id, Model model) {
