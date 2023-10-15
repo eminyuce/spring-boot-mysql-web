@@ -30,6 +30,15 @@ public class ProductController {
         return "product/show";
     }
 
+    @RequestMapping("product/edit/{id}")
+    public String edit(@PathVariable String id, Model model) {
+        Product product = productService.getById(Integer.valueOf(id));
+        ProductForm productForm = productToProductForm.convert(product);
+
+        model.addAttribute("productForm", productForm);
+        return "product/productform";
+    }
+
     @RequestMapping("/product/new")
     public String newProduct(Model model) {
         model.addAttribute("productForm", new ProductForm());
