@@ -6,10 +6,8 @@ import java.util.Date;
 
 public class DateTimeUtils {
 
-    public static final String DATE_FORMAT_PATTERN = "yyyyMMddHHmmss";
-
     public static String getDateTimeFormatted(String strDate) throws ParseException {
-        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT_PATTERN);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         Date dateStr = formatter.parse(strDate);
         String formattedDate = formatter.format(dateStr);
         Date date1 = formatter.parse(formattedDate);
