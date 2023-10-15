@@ -33,16 +33,6 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @RequestMapping("/product")
-    public String redirToList() {
-        return "redirect:/product/list";
-    }
-
-    @RequestMapping({"/product/list", "/product"})
-    public String listProducts(Model model) {
-        model.addAttribute("products", productService.listAll());
-        return "product/list";
-    }
 
     @RequestMapping("/product/show/{id}")
     public String getProduct(@PathVariable String id, Model model) {
