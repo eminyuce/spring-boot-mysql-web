@@ -1,1 +1,15 @@
 test test1
+
+    ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            HashMap<String, ProductVersion> productVersionMap = objectMapper.readValue(jsonString, new TypeReference<HashMap<String, ProductVersion>>() {});
+
+            // Now you have the JSON data as a HashMap
+            for (String key : productVersionMap.keySet()) {
+                ProductVersion product = productVersionMap.get(key);
+                System.out.println(key + " => " + product.getName() + " (Version: " + product.getVersion() + ")");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
