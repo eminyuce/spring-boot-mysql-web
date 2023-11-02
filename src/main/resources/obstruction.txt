@@ -31,3 +31,52 @@ test test1
                 }
             }
         }
+
+
+        public class AmountFormatter implements MappingContext {
+
+            private static final String AMOUNT_FIELD_NAME = "amount";
+
+            @Override
+            public String format(Object o, String s, MappingContext mappingContext) {
+                Postings postings = (Postings) o;
+
+                try {
+                    Field amountField = postings.getClass().getDeclaredField(AMOUNT_FIELD_NAME);
+
+                    if (amountField.getType() == String.class) {
+                        BigDecimal amount = postings.getAmount();
+                        NumberFormat formatter = NumberFormat.getCurrencyInstance();
+                        String formattedAmount = formatter.format(amount);
+
+                        amountField.setAccessible(true);
+                        amountField.set(postings, formattedAmount);
+                    }
+                } catch (NoSuchFieldException | IllegalAccessException e) {
+                    // Ignore if the amount field is not present or accessible.
+                }
+
+                return null;
+            }
+        }
+
+        @Mapper(uses = AmountFormatter.class)
+        public interface PostingsMapper {
+
+            @Mappings({
+                    @Mapping(source = "postings.amount", target = "formattedAmount")
+            })
+            PostingsDTO toDTO(Postings postings);
+        }
+
+        public BigDecimal getAmount(Object o) throws NoSuchFieldException, IllegalAccessException {
+            Field amountField = o.getClass().getDeclaredField(AMOUNT_FIELD_NAME);
+            amountField.setAccessible(true);
+            return (BigDecimal) amountField.get(o);
+        }
+
+        public void setAmount(Object o, BigDecimal amount) throws NoSuchFieldException, IllegalAccessException {
+            Field amountField = o.getClass().getDeclaredField(AMOUNT_FIELD_NAME);
+            amountField.setAccessible(true);
+            amountField.set(o, amount);
+        }
