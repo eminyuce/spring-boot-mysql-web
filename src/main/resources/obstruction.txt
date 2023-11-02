@@ -13,3 +13,21 @@ test test1
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        @Mapper
+        public interface MyMapper {
+            MyMapper INSTANCE = Mappers.getMapper(MyMapper.class);
+
+            @Mapping(target = "formattedAmount", source = "amount")
+            MyDto sourceToDto(MyEntity source);
+
+            default String formatAmount(String amount) {
+                try {
+                    double value = Double.parseDouble(amount);
+                    return String.format("%.2f", value);
+                } catch (NumberFormatException e) {
+                    // Handle the case where the "amount" field is not a valid double
+                    return amount; // or another suitable default value
+                }
+            }
+        }
