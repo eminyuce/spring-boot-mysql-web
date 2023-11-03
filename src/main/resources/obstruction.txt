@@ -96,3 +96,15 @@ test test1
                 }
 
                 System.out.println(amount);
+
+                @Configuration
+                @EnableWebSecurity
+                public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+                  @Override
+                  protected void configure(HttpSecurity http) throws Exception {
+                    http.authorizeRequests()
+                      .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll();
+                  }
+
+                }
