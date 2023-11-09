@@ -84,3 +84,15 @@ By following these steps, you can create JAR images with different Kafka library
                 .collect(Collectors.toList());
 
         list1.removeIf(entity -> idsToDelete.contains(entity.getId()));
+
+
+        ObjectMapper objectMapper = new ObjectMapper();
+                    JsonNode jsonNode = objectMapper.readTree(jsonString);
+
+                    // Extract the value of "target_account"
+                    JsonNode targetAccountNode = jsonNode.get("target_account");
+                    if (targetAccountNode != null && targetAccountNode.isTextual()) {
+                        return targetAccountNode.asText();
+                    } else {
+                        return "Target account not found or is not a string.";
+                    }
