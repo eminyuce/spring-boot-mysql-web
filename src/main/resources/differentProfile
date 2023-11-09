@@ -79,3 +79,8 @@ By following these steps, you can create JAR images with different Kafka library
 
 
 
+   List<Integer> idsToDelete = list2.stream()
+                .map(Entity::getId)
+                .collect(Collectors.toList());
+
+        list1.removeIf(entity -> idsToDelete.contains(entity.getId()));
