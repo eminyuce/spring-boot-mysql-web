@@ -108,3 +108,17 @@ test test1
                   }
 
                 }
+
+
+                    private static OffsetDateTime convertTimestampToOffsetDateTime(long timestamp) {
+                        // Convert the long timestamp to Instant
+                        Instant instant = Instant.ofEpochMilli(timestamp);
+
+                        // Specify the desired time zone offset (e.g., UTC)
+                        ZoneOffset zoneOffset = ZoneOffset.UTC;
+
+                        // Create OffsetDateTime from Instant and ZoneOffset
+                        OffsetDateTime offsetDateTime = instant.atOffset(zoneOffset);
+
+                        return offsetDateTime;
+                    }
