@@ -122,3 +122,17 @@ test test1
 
                         return offsetDateTime;
                     }
+
+
+
+                    # Redis connection properties
+                    spring.redis.host=your-redis-host
+                    spring.redis.port=6379
+                    spring.redis.password=your-redis-password
+                    spring.redis.timeout=3000 # Timeout in milliseconds
+
+                    # Lettuce-specific properties
+                    spring.redis.lettuce.pool.max-active=8
+                    spring.redis.lettuce.pool.max-idle=8
+                    spring.redis.lettuce.pool.min-idle=0
+                    spring.redis.lettuce.pool.max-wait= -1 # The maximum amount of time (in milliseconds) the pool will block before throwing an exception
