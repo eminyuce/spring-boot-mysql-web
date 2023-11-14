@@ -123,6 +123,8 @@ test test1
                         return offsetDateTime;
                     }
 logging.level.io.lettuce.core=DEBUG
+
+
 <!-- logback.xml -->
 <configuration>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
