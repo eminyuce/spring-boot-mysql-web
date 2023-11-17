@@ -151,3 +151,67 @@ logging.level.io.lettuce.core=DEBUG
                     spring.redis.lettuce.pool.max-idle=8
                     spring.redis.lettuce.pool.min-idle=0
                     spring.redis.lettuce.pool.max-wait= -1 # The maximum amount of time (in milliseconds) the pool will block before throwing an exception
+
+
+                    import org.apache.avro.io.BinaryDecoder;
+                    import org.apache.avro.io.DecoderFactory;
+                    import org.apache.avro.specific.SpecificDatumReader;
+
+                    public class ByteArrayToObjectConverter {
+
+                        public static MyObject convertToObject(byte[] byteArray) throws IOException {
+                            SpecificDatumReader<MyObject> reader = new SpecificDatumReader<>(MyObject.class);
+                            BinaryDecoder decoder = DecoderFactory.get().binaryDecoder(byteArray, null);
+                            return reader.read(null, decoder);
+                        }
+                    }
+
+                    import org.apache.avro.io.BinaryEncoder;
+                    import org.apache.avro.io.EncoderFactory;
+                    import org.apache.avro.specific.SpecificDatumWriter;
+
+                    public class ObjectToByteArrayConverter {
+
+                        public static byte[] convertToByteArray(MyObject myObject) throws IOException {
+                            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                            BinaryEncoder encoder = EncoderFactory.get().binaryEncoder(byteArrayOutputStream, null);
+                            new SpecificDatumWriter<>(MyObject.class).write(myObject, encoder);
+                            encoder.flush();
+                            byteArrayOutputStream.close();
+                            return byteArrayOutputStream.toByteArray();
+                        }
+                    }
+
+                    <!-- https://mvnrepository.com/artifact/org.apache.avro/avro -->
+                    <dependency>
+                        <groupId>org.apache.avro</groupId>
+                        <artifactId>avro</artifactId>
+                        <version>1.11.3</version>
+                    </dependency>
+
+    @Bean
+    public RedisTemplate<String, byte[]> redisTemplate(RedisConnectionFactory connectionFactory) {
+        RedisTemplate<String, byte[]> template = new RedisTemplate<>();
+        template.setConnectionFactory(connectionFactory);
+
+        // Use StringRedisSerializer for key serialization
+        template.setKeySerializer(new StringRedisSerializer());
+
+        // Use your custom byte array serializer for value serialization
+        template.setValueSerializer(new ByteArrayRedisSerializer());
+
+        return template;
+    }
+
+    private static class ByteArrayRedisSerializer implements RedisSerializer<byte[]> {
+
+        @Override
+        public byte[] serialize(byte[] bytes) {
+            return bytes;
+        }
+
+        @Override
+        public byte[] deserialize(byte[] bytes) {
+            return bytes;
+        }
+    }
