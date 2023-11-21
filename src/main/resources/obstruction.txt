@@ -215,3 +215,8 @@ logging.level.io.lettuce.core=DEBUG
             return bytes;
         }
     }
+
+      public static boolean isSerializable(Class<?> clazz) {
+            // Check if the class implements Serializable
+            return Serializable.class.isAssignableFrom(clazz);
+        }
