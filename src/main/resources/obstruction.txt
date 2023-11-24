@@ -220,3 +220,24 @@ logging.level.io.lettuce.core=DEBUG
             // Check if the class implements Serializable
             return Serializable.class.isAssignableFrom(clazz);
         }
+
+            public static boolean isSecondListMoreUpdated(List<Balance> firstList, List<Balance> secondList) {
+                if (firstList.size() != secondList.size()) {
+                    // Lists should have the same size for comparison
+                    return false;
+                }
+
+                for (int i = 0; i < firstList.size(); i++) {
+                    OffsetDateTime firstListTime = firstList.get(i).getOffsetDateTime();
+                    OffsetDateTime secondListTime = secondList.get(i).getOffsetDateTime();
+
+                    // Compare the OffsetDateTime values
+                    if (firstListTime.isAfter(secondListTime)) {
+                        // First list has a more recent time, not updated
+                        return false;
+                    }
+                }
+
+                // All elements in the second list are equal or more recent, second list is more updated
+                return true;
+            }

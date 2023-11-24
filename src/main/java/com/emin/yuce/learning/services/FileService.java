@@ -25,16 +25,12 @@ public class FileService {
     }
 
     public void parseFile() {
-        BufferedReader bufferedReader = null;
+
         try {
-            InputStream inputStream = getClass()
-                    .getClassLoader().getResourceAsStream("obstruction.txt");
-            String result = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
-            bufferedReader = new BufferedReader(new StringReader(result));
-
-            String line = null;
-
-            line = bufferedReader.readLine();
+            String result = IOUtils.toString(getClass()
+                    .getClassLoader().getResourceAsStream("obstruction.txt"), StandardCharsets.UTF_8);
+            var bufferedReader = new BufferedReader(new StringReader(result));
+            var line = bufferedReader.readLine();
             while (line != null) {
                 String[] split = line.split(" ");
                 obstructionMap.put(split[0], split[1]);
